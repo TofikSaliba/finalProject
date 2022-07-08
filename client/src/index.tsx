@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
+import UserProvider from "./contexts/User.context";
 import App from "./App";
 
 const root = ReactDOM.createRoot(
@@ -7,6 +8,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Router>
-    <App />
+    <UserProvider>
+      <App />
+    </UserProvider>
   </Router>
 );

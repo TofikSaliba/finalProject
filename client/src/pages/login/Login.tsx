@@ -1,18 +1,31 @@
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import serverAPI from "../../api/serverApi";
 import { useUser } from "../../contexts/User.context";
 import CustomInput from "../../components/customInput/CustomInput";
 import { StyledForm } from "../../components/styledForm/StyledForm";
 import { StyledButton } from "../../components/styledButton/StyledButton";
 
+interface LoginFields {
+  email: string;
+  password: string;
+}
+
 function Login() {
   const { currentUser, setCurrentUser, setToken } = useUser();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LoginFields>({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setRedirect(true);
+    }
+  }, [currentUser]);
 
   const handleChange = (e: any) => {
     setForm((prev) => {
@@ -28,7 +41,6 @@ function Login() {
     setSubmitting(true);
     try {
       const { data } = await serverAPI().post("/users/login", form);
-      console.log(data);
       setCurrentUser(data.user);
       setToken(data.token);
       setForm({
@@ -43,6 +55,10 @@ function Login() {
       setSubmitting(false);
     }
   };
+
+  if (redirect) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>

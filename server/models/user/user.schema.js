@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLength: 6,
   },
+  helper: {
+    type: Boolean,
+    required: true,
+  },
   tokens: [
     {
       token: {

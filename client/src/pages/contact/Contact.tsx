@@ -5,8 +5,15 @@ import { StyledInputContainer } from "../../components/customInput/styledInputCo
 import { StyledButton } from "../../components/styledButton/StyledButton";
 import serverAPI from "../../api/serverApi";
 
+interface ContactFields {
+  fullName: string;
+  email: string;
+  subject: string;
+  description: string;
+}
+
 function Contact() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ContactFields>({
     fullName: "",
     email: "",
     subject: "",
