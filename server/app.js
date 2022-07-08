@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import { usersRouter } from "./routes/users-routes.js";
+import { contactRouter } from "./routes/contact-route.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 app.use(cors());
 
 app.use("/users", usersRouter);
+app.use("/contact", contactRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { headerOptions } from "../types/types";
 
-function userApi(options: headerOptions = {}) {
+function serverAPI(options: headerOptions = {}) {
   const { headers = {} } = options;
   const URL =
-    process.env.NODE_ENV === "production" ? "/" : "http://localhost:5000/users";
+    process.env.NODE_ENV === "production" ? "/" : "http://localhost:5000";
   return axios.create({
     baseURL: URL,
     headers: {
@@ -13,4 +13,4 @@ function userApi(options: headerOptions = {}) {
     },
   });
 }
-export default userApi;
+export default serverAPI;

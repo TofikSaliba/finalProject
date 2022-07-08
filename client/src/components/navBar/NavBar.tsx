@@ -14,7 +14,7 @@ function NavBar() {
         {hamburgerOpen ? <AiOutlineClose /> : <FiMenu />}
       </StyledHamburgerIcons>
       <StyledHamburgerMenu active={hamburgerOpen}>
-        <StyledHamburgerList onClick={() => setHamburgerOpen((prev) => !prev)}>
+        <StyledHamburgerList onClick={() => setHamburgerOpen(false)}>
           <NavLink to="/">
             <li>Home</li>
           </NavLink>

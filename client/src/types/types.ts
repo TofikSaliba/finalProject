@@ -24,3 +24,12 @@ export interface UserContextValue {
   token: string | null;
   setToken: (token: string | null) => void;
 }
+
+export interface CustomInputProps {
+  id: string;
+  type: string;
+  value: string;
+  inputLabel: string;
+  required?: boolean;
+  onChange: (e: any) => void;
+}
