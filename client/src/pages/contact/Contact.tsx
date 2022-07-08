@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyledContactForm } from "./styledContactForm";
+import { StyledForm } from "../../components/styledForm/StyledForm";
 import CustomInput from "../../components/customInput/CustomInput";
 import { StyledInputContainer } from "../../components/customInput/styledInputContainer";
 import { StyledButton } from "../../components/styledButton/StyledButton";
@@ -43,7 +43,7 @@ function Contact() {
 
   return (
     <>
-      <StyledContactForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <h1>Contact Us</h1>
         <CustomInput
           id="fullName"
@@ -80,7 +80,7 @@ function Contact() {
         </StyledInputContainer>
         <StyledButton disabled={submitting}>Submit</StyledButton>
         <div>{submitMsg}</div>
-      </StyledContactForm>
+      </StyledForm>
     </>
   );
 }
