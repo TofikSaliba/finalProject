@@ -1,10 +1,5 @@
 import axios from "axios";
-
-interface headerOptions {
-  headers?: {
-    Authorization?: string;
-  };
-}
+import { headerOptions } from "../types/types";
 
 function userApi(options: headerOptions = {}) {
   const { headers = {} } = options;
