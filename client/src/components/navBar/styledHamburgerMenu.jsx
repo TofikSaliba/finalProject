@@ -13,5 +13,5 @@ export const StyledHamburgerMenu = styled.div`
   border-bottom-left-radius: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
 `;

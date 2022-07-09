@@ -6,10 +6,30 @@ import { StyledHamburgerList } from "./styledHamburgerList";
 import { StyledHamburgerIcons } from "./styledHamburgerIcons";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import serverAPI from "../../api/serverApi";
+import { headerOptions } from "../../types/types";
+import { RemoveCookie } from "../../services/jsCookie";
 
 function NavBar() {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
-  const { currentUser, setCurrentUser, token } = useUser();
+  const { currentUser, setCurrentUser, token, setToken } = useUser();
+
+  const logOut = async () => {
+    const options: headerOptions = {
+      headers: {
+        Authorization: token!,
+      },
+    };
+
+    try {
+      await serverAPI(options).post("/users/logout");
+      setToken(null);
+      RemoveCookie("userToken");
+      setCurrentUser(null);
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <>
@@ -38,7 +58,7 @@ function NavBar() {
           {!currentUser && (
             <>
               <NavLink to="/signUp">
-                <li>signUp</li>
+                <li>SignUp</li>
               </NavLink>
 
               <NavLink to="/login">
@@ -47,7 +67,7 @@ function NavBar() {
             </>
           )}
           {currentUser && (
-            <NavLink onClick={() => setCurrentUser(null)} to="/">
+            <NavLink onClick={logOut} to="/">
               <li>Logout</li>
             </NavLink>
           )}
