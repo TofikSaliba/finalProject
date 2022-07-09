@@ -12,7 +12,8 @@ import { usePreferences } from "../../contexts/Preferences.context";
 
 function NavBar() {
   const { currentUser, setCurrentUser, token, setToken } = useUser();
-  const { setIsLoading, hamburgerOpen, setHamburgerOpen } = usePreferences();
+  const { setIsLoading, hamburgerOpen, setHamburgerOpen, toggleHamburger } =
+    usePreferences();
 
   const logOut = async () => {
     const options: headerOptions = {
@@ -35,9 +36,7 @@ function NavBar() {
 
   return (
     <>
-      <StyledHamburgerIcons
-        onClick={() => setHamburgerOpen((prev: boolean) => !prev)}
-      >
+      <StyledHamburgerIcons onClick={toggleHamburger}>
         {hamburgerOpen ? <AiOutlineClose /> : <FiMenu />}
       </StyledHamburgerIcons>
       <StyledHamburgerMenu active={hamburgerOpen}>

@@ -24,3 +24,8 @@ body {
 .lottieSpinner {
   width: 400px;
 }
+
+.map-container {
+  width: 90%;
+  height: 100vh;
+}

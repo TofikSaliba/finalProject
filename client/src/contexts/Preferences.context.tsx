@@ -5,7 +5,8 @@ interface PreferencesContextValue {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   hamburgerOpen: boolean;
-  setHamburgerOpen: (hamburgerOpen: any) => void;
+  setHamburgerOpen: (hamburgerOpen: boolean) => void;
+  toggleHamburger: () => void;
 }
 
 const emptyPreferencesContextValue: PreferencesContextValue = {
@@ -13,6 +14,7 @@ const emptyPreferencesContextValue: PreferencesContextValue = {
   setIsLoading: function (): void {},
   hamburgerOpen: false,
   setHamburgerOpen: function (): void {},
+  toggleHamburger: function (): void {},
 };
 
 const PreferencesContext = React.createContext<PreferencesContextValue>(
@@ -25,11 +27,16 @@ const PreferencesProvider = ({ children }: contextsProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
+  const toggleHamburger = () => {
+    setHamburgerOpen((prev) => !prev);
+  };
+
   const value: PreferencesContextValue = {
     isLoading,
     setIsLoading,
     hamburgerOpen,
     setHamburgerOpen,
+    toggleHamburger,
   };
 
   return (
