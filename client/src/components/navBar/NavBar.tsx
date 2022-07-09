@@ -50,6 +50,11 @@ function NavBar() {
               <li>Profile</li>
             </NavLink>
           )}
+          {currentUser && currentUser.helper && (
+            <NavLink to="/map">
+              <li>Map</li>
+            </NavLink>
+          )}
 
           <NavLink to="/about">
             <li>About</li>
