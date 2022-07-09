@@ -3,9 +3,11 @@ import { app } from "./server/app.js";
 import { Server } from "socket.io";
 
 export const server = http.createServer(app);
+const URL =
+  process.env.NODE_ENV === "production" ? "/" : "http://localhost:3000";
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: URL,
     methods: ["GET", "POST"],
   },
 });
