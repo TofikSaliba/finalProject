@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import UserProvider from "./contexts/User.context";
+import PreferencesProvider from "./contexts/Preferences.context";
 import App from "./App";
 
 const root = ReactDOM.createRoot(
@@ -8,8 +9,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Router>
-    <UserProvider>
-      <App />
-    </UserProvider>
+    <PreferencesProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </PreferencesProvider>
   </Router>
 );

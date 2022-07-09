@@ -1,4 +1,6 @@
 import { Switch, Route } from "react-router-dom";
+import Lottie from "lottie-react";
+import helpSpinner from "../../lottie/help-animation.json";
 import NavBar from "../../components/navBar/NavBar";
 import Home from "../home/Home";
 import Profile from "../profile/Profile";
@@ -6,10 +8,12 @@ import SignUp from "../signUp/SignUp";
 import Login from "../login/Login";
 import About from "../about/About";
 import Contact from "../contact/Contact";
+import { usePreferences } from "../../contexts/Preferences.context";
 
 // import { useSocket } from "../../contexts/Socket.context";
 
 const Routes = () => {
+  const { isLoading } = usePreferences();
   // const { socket } = useSocket();
 
   // const sendMsg = () => {
@@ -27,7 +31,9 @@ const Routes = () => {
       <div className="bg-container"></div>
       <NavBar />
       {/* <button onClick={sendMsg}>Click</button> */}
-
+      {isLoading && (
+        <Lottie className="lottieSpinner" animationData={helpSpinner} loop />
+      )}
       <Switch>
         <Route exact component={Home} path="/"></Route>
         <Route exact component={Profile} path="/profile"></Route>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import serverAPI from "../../api/serverApi";
 import { useUser } from "../../contexts/User.context";
+import { usePreferences } from "../../contexts/Preferences.context";
 import CustomInput from "../../components/customInput/CustomInput";
 import { StyledForm } from "../../components/styledForm/StyledForm";
 import { StyledButton } from "../../components/styledButton/StyledButton";
@@ -24,14 +25,13 @@ function SignUp() {
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [redirect, setRedirect] = useState(false);
+  const { isLoading, setIsLoading } = usePreferences();
 
   useEffect(() => {
-    if (currentUser) {
-      setRedirect(true);
-    }
-  }, [currentUser]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [setIsLoading]);
 
   const handleChange = (e: any) => {
     setForm((prev) => {
@@ -47,7 +47,7 @@ function SignUp() {
     if (form.password !== confirmPassword) {
       return setError("Passwords do not match!");
     }
-    setSubmitting(true);
+    setIsLoading(true);
     try {
       const { data } = await serverAPI().post("/users/signUp", form);
       setCurrentUser(data.newUser);
@@ -64,7 +64,7 @@ function SignUp() {
       console.log(err);
       setError(err.response.data.message || err.message);
     } finally {
-      setSubmitting(false);
+      setIsLoading(false);
     }
   };
 
@@ -75,70 +75,72 @@ function SignUp() {
     });
   };
 
-  if (redirect) {
+  if (currentUser && !isLoading) {
     return <Redirect to="/" />;
   }
 
   return (
     <>
-      <StyledForm onSubmit={handleSubmit}>
-        <h1>Register an account</h1>
-        <CustomInput
-          id={"name"}
-          onChange={handleChange}
-          type="text"
-          value={form.name}
-          inputLabel="Full Name"
-          required={true}
-        />
-        <CustomInput
-          id={"email"}
-          onChange={handleChange}
-          type="email"
-          value={form.email}
-          inputLabel="Email"
-          required={true}
-        />
-        <CustomInput
-          id={"password"}
-          onChange={handleChange}
-          type="password"
-          value={form.password}
-          inputLabel="password"
-          required={true}
-        />
-        <CustomInput
-          id={"confirmPassword"}
-          onChange={(e: any) => setConfirmPassword(e.target.value)}
-          type="password"
-          value={confirmPassword}
-          inputLabel="Confirm Password"
-          required={true}
-        />
-        <h4>Account type</h4>
-        <StyledRadioInput>
-          <input
-            onChange={handleRadio}
-            name="accType"
-            id="helper"
-            type="radio"
-            required
+      {!isLoading && (
+        <StyledForm onSubmit={handleSubmit}>
+          <h1>Register an account</h1>
+          <CustomInput
+            id={"name"}
+            onChange={handleChange}
+            type="text"
+            value={form.name}
+            inputLabel="Full Name"
+            required={true}
           />
-          <label htmlFor="helper">Here to help</label>
-          <input
-            name="accType"
-            onChange={handleRadio}
-            id="helped"
-            type="radio"
-            required
+          <CustomInput
+            id={"email"}
+            onChange={handleChange}
+            type="email"
+            value={form.email}
+            inputLabel="Email"
+            required={true}
           />
-          <label htmlFor="helped">
-            Here to <span>get</span> help
-          </label>
-        </StyledRadioInput>
-        <StyledButton disabled={submitting}>Submit</StyledButton>
-        <div>{error}</div>
-      </StyledForm>
+          <CustomInput
+            id={"password"}
+            onChange={handleChange}
+            type="password"
+            value={form.password}
+            inputLabel="password"
+            required={true}
+          />
+          <CustomInput
+            id={"confirmPassword"}
+            onChange={(e: any) => setConfirmPassword(e.target.value)}
+            type="password"
+            value={confirmPassword}
+            inputLabel="Confirm Password"
+            required={true}
+          />
+          <h4>Account type</h4>
+          <StyledRadioInput>
+            <input
+              onChange={handleRadio}
+              name="accType"
+              id="helper"
+              type="radio"
+              required
+            />
+            <label htmlFor="helper">Here to help</label>
+            <input
+              name="accType"
+              onChange={handleRadio}
+              id="helped"
+              type="radio"
+              required
+            />
+            <label htmlFor="helped">
+              Here to <span>get</span> help
+            </label>
+          </StyledRadioInput>
+          <StyledButton disabled={isLoading}>Submit</StyledButton>
+          <div>{error}</div>
+        </StyledForm>
+      )}
     </>
   );
 }
