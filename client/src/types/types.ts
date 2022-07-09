@@ -17,6 +17,7 @@ export interface User {
 
 export interface contextsProviderProps {
   children: ReactNode;
+  id?: string | null;
 }
 
 export interface UserContextValue {

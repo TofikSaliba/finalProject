@@ -11,15 +11,13 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`new websocket connection on ${socket.id}`);
-  let id;
-  socket.on("giveId", ({ newId }) => {
-    console.log(newId);
-    id = newId;
-  });
+  const id = socket.handshake.query.id;
+  socket.join(id);
+  console.log(`new websocket connection on ${id}`);
 
   socket.on("tofik", ({ message }, callback) => {
     console.log(message);
-    socket.emit("receive", `the ID is ${id}`);
+    callback(id);
+    io.to(id).emit("receive", `the ID is ${id}`);
   });
 });

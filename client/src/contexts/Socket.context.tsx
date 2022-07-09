@@ -1,34 +1,44 @@
-// import React, { useState, useEffect, useContext } from "react";
-// import { User, contextsProviderProps, UserContextValue } from "../types/types";
+import React, { useState, useEffect, useContext } from "react";
+import io from "socket.io-client";
+import { contextsProviderProps } from "../types/types";
 
-// const emptyUserContextValue: UserContextValue = {
-//   currentUser: null,
-//   setCurrentUser: function (): void {},
-//   token: null,
-//   setToken: function (): void {},
-// };
+interface SocketContextValue {
+  socket: any;
+}
 
-// const UserContext = React.createContext<UserContextValue>(
-//   emptyUserContextValue
-// );
+const emptySocketContextValue: SocketContextValue = {
+  socket: null,
+};
 
-// export function useUser() {
-//   return useContext(UserContext);
-// }
+const SocketContext = React.createContext<SocketContextValue>(
+  emptySocketContextValue
+);
 
-// export function UserProvider({ children }: contextsProviderProps) {
-//   const [currentUser, setCurrentUser] = useState<User | null>(null);
-//   const [token, setToken] = useState<string | null>(null);
+export function useSocket() {
+  return useContext(SocketContext);
+}
 
-//   const value: UserContextValue = {
-//     currentUser,
-//     setCurrentUser,
-//     token,
-//     setToken,
-//   };
+export function SocketProvider({ id, children }: contextsProviderProps) {
+  const [socket, setSocket] = useState<any>(null);
 
-//   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-// }
+  useEffect((): any => {
+    if (id) {
+      const URL =
+        process.env.NODE_ENV === "production" ? "/" : "http://localhost:5000";
+      const newSocket = io(URL, { query: { id } });
+      setSocket(newSocket);
 
-// export default UserProvider;
-export {};
+      return () => newSocket.close();
+    }
+  }, [id]);
+
+  const value: SocketContextValue = {
+    socket,
+  };
+
+  return (
+    <SocketContext.Provider value={value}>{children}</SocketContext.Provider>
+  );
+}
+
+export default SocketProvider;

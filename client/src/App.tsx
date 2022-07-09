@@ -1,43 +1,17 @@
-import { useEffect } from "react";
 import Routes from "./pages/routes/Routes";
+import SocketProvider from "./contexts/Socket.context";
+import { useUser } from "./contexts/User.context";
 
-import io from "socket.io-client";
-// import serverAPI from "./api/serverApi";
 import "./App.css";
 
-const socket = io("http://localhost:5000");
-
-socket.on("receive", (message: string) => {
-  console.log(message);
-});
-
 function App() {
-  useEffect(() => {
-    socket.emit("giveId", { newId: (Math.random() * 10) | 0 });
-  }, []);
-
-  // const sendMsg = () => {
-  //   socket.emit("tofik", { message: "hello world" }, () => {
-  //     console.log("message sent !");
-  //   });
-  // };
-
-  // const getData = async () => {
-  //   const options = {
-  //     headers: {
-  //       Authorization:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmM4Mjk5MmVmN2FhOWYyNWQzMGVjMjkiLCJpYXQiOjE2NTcyODUwMTAsImV4cCI6MTY1Nzg4OTgxMH0.eeGDKYiBnZa0kVZCARfgmNng7t52VbXQEqohMAzCqQI",
-  //     },
-  //   };
-  //   const { data } = await serverAPI(options).get("/users/profile");
-  //   console.log(data);
-  // };
+  const { currentUser } = useUser();
 
   return (
     <div className="mainContainer">
-      {/* <button onClick={sendMsg}>Click</button>
-      <button onClick={getData}>get</button> */}
-      <Routes />
+      <SocketProvider id={currentUser && currentUser._id}>
+        <Routes />
+      </SocketProvider>
     </div>
   );
 }

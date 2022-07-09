@@ -1,20 +1,33 @@
-// import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "../../components/navBar/NavBar";
 import Home from "../home/Home";
 import Profile from "../profile/Profile";
 import SignUp from "../signUp/SignUp";
 import Login from "../login/Login";
-// import userApi from "../../apis/userApi";
 import About from "../about/About";
 import Contact from "../contact/Contact";
 
+// import { useSocket } from "../../contexts/Socket.context";
+
 const Routes = () => {
+  // const { socket } = useSocket();
+
+  // const sendMsg = () => {
+  //   socket.emit("tofik", { message: "hello world" }, (id: any) => {
+  //     console.log(`message sent to ${id} !`);
+  //   });
+  //   socket.off("receive");
+  //   socket.on("receive", (message: string) => {
+  //     console.log(message);
+  //   });
+  // };
+
   return (
     <>
       <div className="bg-container"></div>
       <NavBar />
-      {/* {isSpinning && <h1 className="spinner">Loading</h1>} */}
+      {/* <button onClick={sendMsg}>Click</button> */}
+
       <Switch>
         <Route exact component={Home} path="/"></Route>
         <Route exact component={Profile} path="/profile"></Route>
