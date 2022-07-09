@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyledForm } from "../../components/styledForm/StyledForm";
 import CustomInput from "../../components/customInput/CustomInput";
 import { StyledInputContainer } from "../../components/customInput/styledInputContainer";
 import { StyledButton } from "../../components/styledButton/StyledButton";
 import serverAPI from "../../api/serverApi";
+import { usePreferences } from "../../contexts/Preferences.context";
 
 interface ContactFields {
   fullName: string;
@@ -21,6 +22,11 @@ function Contact() {
   });
   const [submitMsg, setSubmitMsg] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const { setIsLoading } = usePreferences();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading]);
 
   const handleChange = (e: any) => {
     setForm((prev) => {

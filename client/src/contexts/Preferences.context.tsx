@@ -3,12 +3,16 @@ import { contextsProviderProps } from "../types/types";
 
 interface PreferencesContextValue {
   isLoading: boolean;
-  setIsLoading: (isHome: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  hamburgerOpen: boolean;
+  setHamburgerOpen: (hamburgerOpen: any) => void;
 }
 
 const emptyPreferencesContextValue: PreferencesContextValue = {
   isLoading: true,
   setIsLoading: function (): void {},
+  hamburgerOpen: false,
+  setHamburgerOpen: function (): void {},
 };
 
 const PreferencesContext = React.createContext<PreferencesContextValue>(
@@ -19,10 +23,13 @@ export const usePreferences = () => useContext(PreferencesContext);
 
 const PreferencesProvider = ({ children }: contextsProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
   const value: PreferencesContextValue = {
     isLoading,
     setIsLoading,
+    hamburgerOpen,
+    setHamburgerOpen,
   };
 
   return (
