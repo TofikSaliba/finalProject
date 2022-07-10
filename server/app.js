@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { usersRouter } from "./routes/users-routes.js";
 import { contactRouter } from "./routes/contact-route.js";
+import { chatRouter } from "./routes/chat-routes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cors());
 
 app.use("/users", usersRouter);
 app.use("/contact", contactRouter);
+app.use("/chat", chatRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));

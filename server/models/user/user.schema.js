@@ -27,6 +27,30 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  img: {
+    type: String,
+  },
+  age: {
+    type: String,
+  },
+  from: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
+  chat: [
+    {
+      recipentName: {
+        type: String,
+        required: true,
+      },
+      messages: {
+        type: [String],
+        required: true,
+      },
+    },
+  ],
   tokens: [
     {
       token: {

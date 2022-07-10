@@ -1,8 +1,3 @@
-// Todo
-
-// editProfile,
-// logoutAll, ?
-
 import { User } from "../models/user/user.model.js";
 
 export const signUpUser = async (req, res) => {
