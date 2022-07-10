@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import PreferencesProvider from "../../contexts/Preferences.context";
 import { useSocket } from "../../contexts/Socket.context";
 import { useUser } from "../../contexts/User.context";
 
@@ -19,8 +18,7 @@ function Home() {
       currentUser?._id === "62cae0339561dbdfaf1064d2"
         ? "62c8b45b7f653b187994072f"
         : "62cae0339561dbdfaf1064d2";
-    console.log(inputRef.current.value);
-    console.log(msgs);
+
     let msg = inputRef.current.value;
     setMsgs((prev) => {
       prev.unshift(msg);
@@ -33,7 +31,6 @@ function Home() {
 
   useEffect(() => {
     if (socket) {
-      // socket.off("receiveMessage");
       socket.on("receiveMessage", ({ msg }: message) => {
         setMsgs((prev) => [msg, ...prev]);
       });
@@ -42,8 +39,6 @@ function Home() {
   }, [socket]);
 
   const getMsgs = () => {
-    console.log("asfasas");
-
     return msgs.map((msg, idx) => {
       return <div key={idx}>{msg}</div>;
     });

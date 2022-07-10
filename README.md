@@ -1,1 +1,1 @@
-# Group 2 Hackathon
+# Helping hand final project
