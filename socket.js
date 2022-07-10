@@ -17,9 +17,14 @@ io.on("connection", (socket) => {
   socket.join(id);
   console.log(`new websocket connection on ${id}`);
 
+  socket.on("sendMessage", ({ to, message }) => {
+    console.log(to, message);
+    socket.to(to).emit("receiveMessage", { msg: message + id });
+  });
+
   socket.on("tofik", ({ message }, callback) => {
     console.log(message);
     callback(id);
-    io.to(id).emit("receive", `the ID is ${id}`);
+    socket.to(id).emit("receive", `the ID is ${id}`);
   });
 });
