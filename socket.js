@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", ({ to, message }) => {
     console.log(to, message);
-    socket.to(to).emit("receiveMessage", { msg: message + id });
+    socket.to(to).emit("receiveMessage", { msg: message });
   });
 
   socket.on("tofik", ({ message }, callback) => {

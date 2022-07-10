@@ -14,6 +14,7 @@ export interface User {
   age?: string;
   from?: string;
   bio?: string;
+  chat?: Array<object>;
   helper: boolean;
   password?: string;
   __v: number;
