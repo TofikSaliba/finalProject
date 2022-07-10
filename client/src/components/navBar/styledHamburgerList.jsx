@@ -7,6 +7,7 @@ export const StyledHamburgerList = styled.ul`
   flex-direction: column;
   width: min-content;
   height: min-content;
+  align-items: center;
   a {
     padding: 1.5rem;
     text-decoration: none;

@@ -10,6 +10,10 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  img?: string;
+  age?: string;
+  from?: string;
+  bio?: string;
   helper: boolean;
   password?: string;
   __v: number;

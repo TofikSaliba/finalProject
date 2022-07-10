@@ -37,7 +37,7 @@ const Routes = () => {
       )}
       <Switch>
         <Route exact component={Home} path="/" />
-        <Route exact component={Profile} path="/profile" />
+        <Route exact component={Profile} path="/profile/:id?" />
         <Route exact component={Map} path="/map" />
         <Route exact component={Contact} path="/contact" />
         <Route exact component={About} path="/about" />
