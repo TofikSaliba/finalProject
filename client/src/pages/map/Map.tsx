@@ -18,11 +18,25 @@ function Map() {
   });
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
+    const successHandler = (position: any) => {
       setCenter({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       });
+    };
+
+    const errorHandler = (errorObj: any) => {
+      alert(errorObj.code + ": " + errorObj.message);
+
+      setCenter({
+        lat: 32.0831488,
+        lng: 34.8930624,
+      });
+    };
+
+    navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
     });
   }, []);
 
