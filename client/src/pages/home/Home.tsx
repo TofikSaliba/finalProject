@@ -8,16 +8,15 @@ interface message {
 
 function Home() {
   const inputRef: any = useRef();
+  const IDRef: any = useRef();
   const { sendMessage, socket } = useSocket();
   const { currentUser } = useUser();
   const [msgs, setMsgs] = useState<string[]>([]);
   const [rerender, setRerender] = useState(false);
+  const [recipentID, setRecipentID] = useState("");
 
   const fetch = async () => {
-    const to =
-      currentUser?._id === "62cae0339561dbdfaf1064d2"
-        ? "62c8b45b7f653b187994072f"
-        : "62cae0339561dbdfaf1064d2";
+    if (recipentID === "") return;
 
     let msg = inputRef.current.value;
     setMsgs((prev) => {
@@ -25,7 +24,7 @@ function Home() {
       return prev;
     });
     setRerender((prev) => !prev);
-    sendMessage(to, inputRef.current.value);
+    sendMessage(recipentID, inputRef.current.value);
     inputRef.current.value = "";
   };
 
@@ -44,10 +43,19 @@ function Home() {
     });
   };
 
+  const setID = () => {
+    setRecipentID(IDRef.current.value);
+    IDRef.current.value = "";
+  };
+
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <label htmlFor="">To ID</label>
+      <input ref={IDRef} type="text" />
+      <button onClick={setID}>set</button>
+      <label htmlFor="">Message</label>
       <input ref={inputRef} type="text" />
-      <button onClick={fetch}>fetch</button>
+      <button onClick={fetch}>send</button>
       <div>{getMsgs()}</div>
     </div>
   );
