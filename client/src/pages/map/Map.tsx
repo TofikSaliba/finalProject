@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import {
   GoogleMap,
   //   useLoadScript,
@@ -8,24 +8,23 @@ import {
 import { usePreferences } from "../../contexts/Preferences.context";
 import { useMarkersAndChat } from "../../contexts/MarkersAndChat.context";
 
-const centerInit = {
-  lat: 0,
-  lng: 0,
-};
-
-navigator.geolocation.getCurrentPosition(async (position) => {
-  centerInit.lat = position.coords.latitude;
-  centerInit.lng = position.coords.longitude;
-});
-
 function Map() {
   const { markers } = useMarkersAndChat();
   const { setIsLoading, isLoading, setHamburgerOpen, hamburgerOpen } =
     usePreferences();
-  const center = useMemo(() => centerInit, []);
+  const [Center, setCenter] = useState<any>();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP!,
   });
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      setCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -72,7 +71,7 @@ function Map() {
         <div onClick={closeMenu} className="map-wrapper">
           <GoogleMap
             zoom={14}
-            center={center}
+            center={Center}
             mapContainerClassName="map-container"
             options={{
               fullscreenControl: false,
