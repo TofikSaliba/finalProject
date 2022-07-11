@@ -9,12 +9,16 @@ const markerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  when: {
+    type: String,
+    required: true,
+  },
   lat: {
-    type: number,
+    type: Number,
     required: true,
   },
   lng: {
-    type: number,
+    type: Number,
     required: true,
   },
 });

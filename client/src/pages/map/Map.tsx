@@ -1,16 +1,28 @@
 import { useEffect, useMemo } from "react";
-import { usePreferences } from "../../contexts/Preferences.context";
 import {
   GoogleMap,
   //   useLoadScript,
   Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import { usePreferences } from "../../contexts/Preferences.context";
+import { useMarkersAndChat } from "../../contexts/MarkersAndChat.context";
+
+const centerInit = {
+  lat: 0,
+  lng: 0,
+};
+
+navigator.geolocation.getCurrentPosition(async (position) => {
+  centerInit.lat = position.coords.latitude;
+  centerInit.lng = position.coords.longitude;
+});
 
 function Map() {
+  const { markers } = useMarkersAndChat();
   const { setIsLoading, isLoading, setHamburgerOpen, hamburgerOpen } =
     usePreferences();
-  const center = useMemo(() => ({ lat: 32.799, lng: 35 }), []);
+  const center = useMemo(() => centerInit, []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP!,
   });
@@ -43,13 +55,14 @@ function Map() {
   };
 
   const getMarkers = () => {
-    const arr = [
-      { lat: 32.8, lng: 35 },
-      { lat: 32.799, lng: 35.01 },
-      { lat: 32.78, lng: 35 },
-    ];
-    return arr.map((el, idx) => {
-      return <Marker key={idx} onClick={handleMarkerClick} position={el} />;
+    return markers.map((marker, idx) => {
+      return (
+        <Marker
+          key={idx}
+          onClick={handleMarkerClick}
+          position={{ lat: marker.lat, lng: marker.lng }}
+        />
+      );
     });
   };
 

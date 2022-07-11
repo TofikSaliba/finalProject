@@ -40,3 +40,13 @@ export interface CustomInputProps {
   required?: boolean;
   onChange: (e: any) => void;
 }
+
+export interface Marker {
+  _id: string;
+  userID: string;
+  description: string;
+  when: string;
+  lat: number;
+  lng: number;
+  __v: number;
+}

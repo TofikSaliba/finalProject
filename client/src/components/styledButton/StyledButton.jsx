@@ -3,8 +3,8 @@ import device from "../../utils/mediaQuerySizes";
 
 export const StyledButton = styled.button`
   border: none;
-  padding: 0.8rem 2.8rem;
-  font-size: 2rem;
+  padding: 0.8rem 2.4rem;
+  font-size: clamp(1.2rem, 2vw, 2rem);
   letter-spacing: 2px;
   border-radius: 8px;
   background-color: #e66d3993;
@@ -33,11 +33,9 @@ export const StyledButton = styled.button`
     box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 21px, rgba(0, 0, 0, 0.22) 0px 1px 3px;
   }
   @media ${device.tablet} {
-    padding: 0.6rem 2.4rem;
-    font-size: 1.5rem;
+    padding: 0.6rem 2rem;
   }
   @media ${device.mobileM} {
-    padding: 0.4rem 2rem;
-    font-size: 1.2rem;
+    padding: 0.4rem 1.6rem;
   }
 `;
