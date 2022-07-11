@@ -37,7 +37,7 @@ const MarkersAndChatProvider = ({ children }: contextsProviderProps) => {
       return marker.userID === currentUser._id;
     });
     if (userHasMarker) return false;
-    navigator.geolocation.getCurrentPosition(async (position) => {
+    const successHandler = async (position: any) => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       const { data } = await serverAPI().post("/markers/addMarker", {
@@ -48,6 +48,23 @@ const MarkersAndChatProvider = ({ children }: contextsProviderProps) => {
         lng,
       });
       setMarkers((prev) => [...prev, data.newMarker]);
+    };
+
+    const errorHandler = async (errorObj: any) => {
+      alert(errorObj.code + ": " + errorObj.message);
+
+      const { data } = await serverAPI().post("/markers/addMarker", {
+        userID: currentUser?._id,
+        description,
+        when,
+        lat: 32.0831488,
+        lng: 34.8930624,
+      });
+      setMarkers((prev) => [...prev, data.newMarker]);
+    };
+    navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
     });
     return true;
   };
