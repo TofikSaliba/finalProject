@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useUser } from "../../contexts/User.context";
 import { StyledHamburgerMenu } from "./styledHamburgerMenu";
@@ -5,12 +6,16 @@ import { StyledHamburgerList } from "./styledHamburgerList";
 import { StyledHamburgerIcons } from "./styledHamburgerIcons";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import { GrAddCircle } from "react-icons/gr";
 import serverAPI from "../../api/serverApi";
 import { headerOptions } from "../../types/types";
 import { RemoveCookie } from "../../services/jsCookie";
 import { usePreferences } from "../../contexts/Preferences.context";
+import { StyledRequestHelpIcon } from "./StyledRequestHelpIcon";
+import MakeRequest from "../../pages/makeRequest/MakeRequest";
 
 function NavBar() {
+  const [requestPopup, setRequestPopup] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
   const { setIsLoading, hamburgerOpen, setHamburgerOpen, toggleHamburger } =
     usePreferences();
@@ -36,10 +41,10 @@ function NavBar() {
 
   return (
     <>
-      <StyledHamburgerIcons onClick={toggleHamburger}>
+      <StyledHamburgerIcons id="burgerIcon" onClick={toggleHamburger}>
         {hamburgerOpen ? <AiOutlineClose /> : <FiMenu />}
       </StyledHamburgerIcons>
-      <StyledHamburgerMenu active={hamburgerOpen}>
+      <StyledHamburgerMenu id="burgerMenu" active={hamburgerOpen}>
         <StyledHamburgerList onClick={() => setHamburgerOpen(false)}>
           <NavLink to="/">
             <li>Home</li>
@@ -81,6 +86,14 @@ function NavBar() {
           )}
         </StyledHamburgerList>
       </StyledHamburgerMenu>
+      {currentUser && !currentUser.helper && (
+        <StyledRequestHelpIcon>
+          <NavLink to="#" onClick={() => setRequestPopup((prev) => !prev)}>
+            <GrAddCircle />
+          </NavLink>
+        </StyledRequestHelpIcon>
+      )}
+      {requestPopup && <MakeRequest close={setRequestPopup} />}
     </>
   );
 }

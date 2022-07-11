@@ -10,7 +10,12 @@ function App() {
   const { setHamburgerOpen, hamburgerOpen } = usePreferences();
 
   const closeMenu = (e: any) => {
-    if (e.target.id === "main" && hamburgerOpen) setHamburgerOpen(false);
+    if (
+      e.target.id !== "burgerIcon" &&
+      e.target.id !== "burgerMenu" &&
+      hamburgerOpen
+    )
+      setHamburgerOpen(false);
   };
 
   return (

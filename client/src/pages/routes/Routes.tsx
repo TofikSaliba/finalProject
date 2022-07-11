@@ -11,21 +11,8 @@ import About from "../about/About";
 import Contact from "../contact/Contact";
 import { usePreferences } from "../../contexts/Preferences.context";
 
-// import { useSocket } from "../../contexts/Socket.context";
-
 const Routes = () => {
   const { isLoading } = usePreferences();
-  // const { socket } = useSocket();
-
-  // const sendMsg = () => {
-  //   socket.emit("tofik", { message: "hello world" }, (id: any) => {
-  //     console.log(`message sent to ${id} !`);
-  //   });
-  //   socket.off("receive");
-  //   socket.on("receive", (message: string) => {
-  //     console.log(message);
-  //   });
-  // };
 
   return (
     <>

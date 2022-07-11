@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { useSocket } from "../../contexts/Socket.context";
-import { useUser } from "../../contexts/User.context";
 
 interface message {
   msg: string;
@@ -10,20 +9,14 @@ function Home() {
   const inputRef: any = useRef();
   const IDRef: any = useRef();
   const { sendMessage, socket } = useSocket();
-  const { currentUser } = useUser();
   const [msgs, setMsgs] = useState<string[]>([]);
-  const [rerender, setRerender] = useState(false);
   const [recipentID, setRecipentID] = useState("");
 
   const fetch = async () => {
     if (recipentID === "") return;
 
     let msg = inputRef.current.value;
-    setMsgs((prev) => {
-      prev.unshift(msg);
-      return prev;
-    });
-    setRerender((prev) => !prev);
+    setMsgs((prev) => [msg, ...prev]);
     sendMessage(recipentID, inputRef.current.value);
     inputRef.current.value = "";
   };

@@ -27,7 +27,7 @@ export const StyledInputContainer = styled.div`
     font-size: 2rem;
     -webkit-transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    background: #f6f6f68a;
+    background: #fff;
     border-radius: 1rem;
     color: #111;
     -webkit-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -38,6 +38,7 @@ export const StyledInputContainer = styled.div`
   }
   textarea {
     height: 20rem;
+    padding-top: 2rem;
   }
   label {
     position: absolute;

@@ -89,7 +89,9 @@ function Contact() {
             value={form.description}
             required={true}
           />
-          <label htmlFor="description">Description</label>
+          <label className={form.description && "filled"} htmlFor="description">
+            Description
+          </label>
         </StyledInputContainer>
         <StyledButton disabled={submitting}>Submit</StyledButton>
         <div>{submitMsg}</div>

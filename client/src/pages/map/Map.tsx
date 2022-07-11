@@ -28,6 +28,20 @@ function Map() {
     }
   };
 
+  const handleMarkerClick = (marker: any) => {
+    const geocoder = new google.maps.Geocoder();
+    const latlng = {
+      lat: marker.latLng!.lat(),
+      lng: marker.latLng!.lng(),
+    };
+
+    console.log(latlng.lat, latlng.lng, "lat and lng from marker");
+
+    geocoder.geocode({ location: latlng }).then((response) => {
+      console.log(response.results[0].formatted_address);
+    });
+  };
+
   const getMarkers = () => {
     const arr = [
       { lat: 32.8, lng: 35 },
@@ -35,19 +49,7 @@ function Map() {
       { lat: 32.78, lng: 35 },
     ];
     return arr.map((el, idx) => {
-      return (
-        <Marker
-          key={idx}
-          onClick={(marker) =>
-            console.log(
-              marker.latLng!.lat(),
-              marker.latLng!.lng(),
-              "lat and lng from marker"
-            )
-          }
-          position={el}
-        />
-      );
+      return <Marker key={idx} onClick={handleMarkerClick} position={el} />;
     });
   };
 
