@@ -54,23 +54,7 @@ function Map() {
   };
 
   const handleMarkerClick = (marker: any) => {
-    const geocoder = new google.maps.Geocoder();
-    const latlng = {
-      lat: marker.latLng!.lat(),
-      lng: marker.latLng!.lng(),
-    };
-
-    console.log(latlng.lat, latlng.lng, "lat and lng from marker");
-
-    geocoder
-      .geocode({ address: "Ha-Rav Friedman St 9, Tel Aviv-Yafo, Israel" })
-      .then((response) => {
-        // console.log(response.results[0].formatted_address);
-        console.log(
-          response.results[0].geometry.location.lat(),
-          response.results[0].geometry.location.lng()
-        );
-      });
+    console.log("hihi");
   };
 
   const getMarkers = () => {
