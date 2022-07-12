@@ -7,6 +7,8 @@ import CustomInput from "../../components/customInput/CustomInput";
 import { StyledForm } from "../../components/styledForm/StyledForm";
 import { StyledButton } from "../../components/styledButton/StyledButton";
 import { StyledRadioInput } from "./styledRadioInput";
+import MapSearchInput from "../../components/mapSearchInput/MapSearchInput";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 
 interface signUpFields {
   name: string;
@@ -25,7 +27,8 @@ function SignUp() {
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const { isLoading, setIsLoading } = usePreferences();
+  const [address, setAddress] = useState("");
+  const { isLoading, setIsLoading, isLoaded } = usePreferences();
 
   useEffect(() => {
     setTimeout(() => {
@@ -47,9 +50,26 @@ function SignUp() {
     if (form.password !== confirmPassword) {
       return setError("Passwords do not match!");
     }
+    let errorOccured = false;
+    let latitude = 0,
+      longitude = 0;
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = getLatLng(results[0]);
+      latitude = lat;
+      longitude = lng;
+    } catch (err) {
+      errorOccured = true;
+      setError("Invalid Address!");
+    }
+    if (errorOccured) return;
     setIsLoading(true);
     try {
-      const { data } = await serverAPI().post("/users/signUp", form);
+      const { data } = await serverAPI().post("/users/signUp", {
+        ...form,
+        coords: { lat: latitude, lng: longitude },
+        address,
+      });
       setCurrentUser(data.newUser);
       setToken(data.token);
       setForm({
@@ -81,7 +101,7 @@ function SignUp() {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading && isLoaded && (
         <StyledForm onSubmit={handleSubmit}>
           <h1>Register an account</h1>
           <CustomInput
@@ -116,6 +136,7 @@ function SignUp() {
             inputLabel="Confirm Password"
             required={true}
           />
+          <MapSearchInput sendValue={setAddress} />
           <h4>Account type</h4>
           <StyledRadioInput>
             <input
@@ -138,7 +159,7 @@ function SignUp() {
             </label>
           </StyledRadioInput>
           <StyledButton disabled={isLoading}>Submit</StyledButton>
-          <div>{error}</div>
+          <div className="error">{error}</div>
         </StyledForm>
       )}
     </>

@@ -7,6 +7,10 @@ export const StyledForm = styled.form`
   align-items: center;
   gap: 2rem;
   width: 500px;
+  .error {
+    color: red;
+    font-size: 1.6rem;
+  }
   h1 {
     text-align: center;
     margin-bottom: 5rem;

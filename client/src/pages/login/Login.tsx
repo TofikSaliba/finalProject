@@ -82,7 +82,7 @@ function Login() {
             required={true}
           />
           <StyledButton disabled={isLoading}>Submit</StyledButton>
-          <div>{error}</div>
+          <div className="error">{error}</div>
         </StyledForm>
       )}
     </>

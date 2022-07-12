@@ -17,8 +17,13 @@ import MakeRequest from "../../pages/makeRequest/MakeRequest";
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
-  const { setIsLoading, hamburgerOpen, setHamburgerOpen, toggleHamburger } =
-    usePreferences();
+  const {
+    setIsLoading,
+    hamburgerOpen,
+    setHamburgerOpen,
+    toggleHamburger,
+    isLoaded,
+  } = usePreferences();
 
   const logOut = async () => {
     const options: headerOptions = {
@@ -88,9 +93,11 @@ function NavBar() {
       </StyledHamburgerMenu>
       {currentUser && !currentUser.helper && (
         <StyledRequestHelpIcon>
-          <NavLink to="#" onClick={() => setRequestPopup((prev) => !prev)}>
-            <GrAddCircle />
-          </NavLink>
+          {isLoaded && (
+            <NavLink to="#" onClick={() => setRequestPopup((prev) => !prev)}>
+              <GrAddCircle />
+            </NavLink>
+          )}
         </StyledRequestHelpIcon>
       )}
       {requestPopup && <MakeRequest close={setRequestPopup} />}

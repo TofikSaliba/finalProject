@@ -10,6 +10,8 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  address: string;
+  coords: any;
   img?: string;
   age?: string;
   from?: string;

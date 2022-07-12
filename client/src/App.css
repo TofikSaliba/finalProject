@@ -35,3 +35,11 @@ body {
 .map-container {
   width: 100%;
 }
+
+.searchX {
+  z-index: 20;
+}
+
+.Combobox {
+  width: 100%;
+}

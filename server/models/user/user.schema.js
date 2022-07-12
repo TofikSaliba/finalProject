@@ -39,6 +39,20 @@ const userSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  coords: {
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
+  },
   chat: [
     {
       recipentName: {
