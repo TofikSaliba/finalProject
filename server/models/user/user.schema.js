@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
+  helpOffered: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+  },
   chat: [
     {
       recipentName: {

@@ -104,3 +104,13 @@ export const editProfile = async (req, res) => {
     res.status(500).json({ code: 500, message: err.message });
   }
 };
+
+export const updateHelpOffered = async (req, res) => {
+  try {
+    req.user.helpOffered.push(req.body.toUser);
+    await req.user.save();
+    res.json({ updatedUser: req.user });
+  } catch (err) {
+    res.status(500).json({ code: 500, message: err.message });
+  }
+};

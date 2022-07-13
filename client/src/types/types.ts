@@ -12,6 +12,7 @@ export interface User {
   email: string;
   address: string;
   coords: any;
+  helpOffered: string[];
   img?: string;
   age?: string;
   from?: string;

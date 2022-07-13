@@ -67,16 +67,7 @@ function NavBar() {
         );
       } else if (notObj.accept !== undefined) {
         if (notObj.accept === "deciding") {
-          return (
-            <div key={notObj._id}>
-              {`${notObj.name} is offering to help!`}
-              <div>
-                <StyledButton>Decline</StyledButton>
-                <StyledButton>Accept</StyledButton>
-              </div>
-              <hr />
-            </div>
-          );
+          return decidingToAcceptNotifJSX(notObj);
         } else if (notObj.accept === "yes") {
           return (
             <div key={notObj._id}>
@@ -99,12 +90,25 @@ function NavBar() {
           </div>
         );
       } else {
-        return addedMarkerJSX(notObj);
+        return addedMarkerNotifJSX(notObj);
       }
     });
   };
 
-  const addedMarkerJSX = (notObj: NotificationObject) => {
+  const decidingToAcceptNotifJSX = (notObj: NotificationObject) => {
+    return (
+      <div key={notObj._id}>
+        {`${notObj.name} is offering to help!`}
+        <div className="decidingContainer">
+          <StyledButton>Decline</StyledButton>
+          <StyledButton>Accept</StyledButton>
+        </div>
+        <hr />
+      </div>
+    );
+  };
+
+  const addedMarkerNotifJSX = (notObj: NotificationObject) => {
     return (
       <div key={notObj._id}>
         <span>{notObj.name}</span> is requesting help, check the map!

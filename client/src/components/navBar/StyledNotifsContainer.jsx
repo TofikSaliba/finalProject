@@ -14,7 +14,7 @@ export const StyledNotifsContainer = styled.div`
   &:before {
     content: "";
     position: absolute;
-    top: -15%;
+    top: -10px;
     left: 35%;
     transform: rotate(45deg);
     width: 30px;
@@ -27,6 +27,15 @@ export const StyledNotifsContainer = styled.div`
   }
   span {
     font-weight: bold;
+  }
+  .decidingContainer {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    button {
+      font-size: 1.4rem;
+      padding: 0.5rem 1rem;
+    }
   }
   @media ${device.mobileL} {
     &:before {

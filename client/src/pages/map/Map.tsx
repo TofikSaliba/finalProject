@@ -13,22 +13,26 @@ import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
 import MapSearchInput from "../../components/mapSearchInput/MapSearchInput";
 import { StyledSearch } from "./StyledSearch";
 import { StyledButton } from "../../components/styledButton/StyledButton";
-import { MarkerObj } from "../../types/types";
+import { headerOptions, MarkerObj } from "../../types/types";
 import markerIcon from "../../assets/images/marker.svg";
 import { StyledInfowindow } from "./StyledInfowindow";
+import { useSocket } from "../../contexts/Socket.context";
+import serverAPI from "../../api/serverApi";
 
 function Map() {
   const { markers } = useUsersUpdates();
-  const { currentUser } = useUser();
+  const { currentUser, token, setCurrentUser } = useUser();
   const { setIsLoading, isLoading, setHamburgerOpen, hamburgerOpen, isLoaded } =
     usePreferences();
   const center = useMemo(() => currentUser?.coords, [currentUser]);
   const [value, setValue] = useState("");
   const [selected, setSelected] = useState<MarkerObj | null>(null);
+  const [canHelp, setCanHelp] = useState(true);
   const mapRef: any = useRef();
   const onMapLoad = useCallback((map: any) => {
     mapRef.current = map;
   }, []);
+  const { socket } = useSocket();
 
   useEffect(() => {
     setIsLoading(true);
@@ -66,7 +70,14 @@ function Map() {
       return (
         <Marker
           key={idx}
-          onClick={() => setSelected(marker)}
+          onClick={() => {
+            setSelected(marker);
+            if (currentUser?.helpOffered.includes(marker._id)) {
+              setCanHelp(false);
+            } else {
+              setCanHelp(true);
+            }
+          }}
           position={{ lat: marker.coords.lat, lng: marker.coords.lng }}
           icon={{
             url: markerIcon,
@@ -77,6 +88,27 @@ function Map() {
         />
       );
     });
+  };
+
+  const handleSendHelp = async () => {
+    setCanHelp(false);
+    socket.emit("offerHelp", { to: selected?.userID });
+    const options: headerOptions = {
+      headers: {
+        Authorization: token!,
+      },
+    };
+    try {
+      const { data } = await serverAPI(options).put(
+        "/users/updateHelpOffered",
+        {
+          toUser: selected?._id,
+        }
+      );
+      setCurrentUser(data.updatedUser);
+    } catch (err: any) {
+      console.log(err.response.data || err.message);
+    }
   };
 
   return (
@@ -123,7 +155,14 @@ function Map() {
                       </NavLink>
                       <StyledButton>Message</StyledButton>
 
-                      <StyledButton>Help</StyledButton>
+                      {canHelp && (
+                        <StyledButton
+                          disabled={!canHelp}
+                          onClick={handleSendHelp}
+                        >
+                          Help
+                        </StyledButton>
+                      )}
                     </div>
                   </StyledInfowindow>
                 </InfoWindow>

@@ -9,6 +9,7 @@ import {
   loginUser,
   logoutAll,
   getUser,
+  updateHelpOffered,
 } from "../controllers/user.controllers.js";
 import { auth } from "../middleware/auth/auth.js";
 
@@ -22,5 +23,6 @@ usersRouter.get("/getUserById/:id", getUser);
 usersRouter.get("/profile", auth, getUserProfile);
 usersRouter.patch("/editProfile", auth, editProfile);
 usersRouter.delete("/deleteUser", auth, deleteUser);
+usersRouter.put("/updateHelpOffered", auth, updateHelpOffered);
 
 export { usersRouter };

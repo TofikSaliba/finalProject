@@ -27,10 +27,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("markerAdded", async () => {
-    io.emit("updateMarkers");
     const usersNotifs = await Notifications.find({});
     for (const user of usersNotifs) {
-      if (user._id !== id) {
+      if (user._id.toString() !== id) {
         user.notifications.unshift({
           userID: id,
           name,
@@ -39,5 +38,18 @@ io.on("connection", (socket) => {
         await user.save();
       }
     }
+    io.emit("updateMarkersOrNotifs");
+  });
+
+  socket.on("offerHelp", async ({ to }) => {
+    const userNotifs = await Notifications.findById(to);
+    userNotifs.notifications.unshift({
+      userID: id,
+      name,
+      accept: "deciding",
+    });
+    ++userNotifs.unRead;
+    await userNotifs.save();
+    socket.to(to).emit("updateMarkersOrNotifs");
   });
 });

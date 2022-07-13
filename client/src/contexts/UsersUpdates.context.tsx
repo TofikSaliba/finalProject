@@ -58,11 +58,11 @@ const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
         console.log(err.response.data || err.message);
       }
     })();
-    socket?.on("updateMarkers", () => {
+    socket?.on("updateMarkersOrNotifs", () => {
       setRefetchMarkers((prev) => !prev);
       setRefetchNotifs((prev) => !prev);
     });
-    return () => socket?.off("updateMarkers");
+    return () => socket?.off("updateMarkersOrNotifs");
   }, [refetchMarkers, socket]);
 
   useEffect(() => {
