@@ -44,7 +44,6 @@ function MakeRequest({ close }: any) {
         <div className="smallContainer">
           {!success && (
             <>
-              <MapSearchInput sendValue={setValue} />
               <StyledInputContainer>
                 <textarea
                   id="description"
@@ -65,6 +64,8 @@ function MakeRequest({ close }: any) {
                 type="datetime-local"
                 value={date}
               />
+              <h3>Where?</h3>
+              <MapSearchInput sendValue={value} setSendValue={setValue} />
               <div className="error">{error}</div>
               <div className="buttons">
                 <StyledButton onClick={() => close(false)}>Cancel</StyledButton>

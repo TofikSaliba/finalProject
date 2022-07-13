@@ -10,7 +10,7 @@ import { StyledInputContainer } from "../customInput/styledInputContainer";
 
 import "@reach/combobox/styles.css";
 
-function MapSearchInput({ sendValue }: any) {
+function MapSearchInput({ setSendValue, sendValue }: any) {
   const {
     ready,
     value,
@@ -21,12 +21,12 @@ function MapSearchInput({ sendValue }: any) {
 
   const handleInput = (e: any) => {
     setValue(e.target.value);
-    sendValue(e.target.value);
+    setSendValue(e.target.value);
   };
 
   const handleSelect = async (address: string) => {
     setValue(address, false);
-    sendValue(address);
+    setSendValue(address);
     clearSuggestions();
   };
 
@@ -39,7 +39,7 @@ function MapSearchInput({ sendValue }: any) {
           </label>
           <ComboboxInput
             id="address"
-            value={value}
+            value={sendValue}
             onChange={handleInput}
             disabled={!ready}
             required

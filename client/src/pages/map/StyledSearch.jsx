@@ -1,22 +1,19 @@
 import styled from "styled-components";
 import device from "../../utils/mediaQuerySizes";
 
-export const StyledSearch = styled.div`
+export const StyledSearch = styled.form`
   position: absolute;
-  top: 2rem;
+  top: 6rem;
   margin: 0 auto;
   display: flex;
   gap: 1rem;
-  @media ${device.mobileL} {
-    margin: 0;
-    align-self: flex-start;
+  button {
+    display: none;
   }
-  @media ${device.mobileM} {
-    flex-direction: column;
-    top: 0.5rem;
-    align-items: flex-end;
+
+  @media ${device.mobileS} {
     input {
-      width: 220px;
+      width: 200px;
       font-size: 1.4rem;
     }
   }

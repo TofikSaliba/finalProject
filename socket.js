@@ -26,6 +26,5 @@ io.on("connection", (socket) => {
 
   socket.on("markerAdded", () => {
     io.emit("updateMarkers");
-    console.log("got here");
   });
 });

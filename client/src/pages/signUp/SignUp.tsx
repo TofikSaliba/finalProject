@@ -136,7 +136,7 @@ function SignUp() {
             inputLabel="Confirm Password"
             required={true}
           />
-          <MapSearchInput sendValue={setAddress} />
+          <MapSearchInput sendValue={address} setSendValue={setAddress} />
           <h4>Account type</h4>
           <StyledRadioInput>
             <input

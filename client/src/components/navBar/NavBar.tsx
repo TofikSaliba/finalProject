@@ -7,12 +7,18 @@ import { StyledHamburgerIcons } from "./styledHamburgerIcons";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { GrAddCircle } from "react-icons/gr";
+import { MdOutlineNotifications } from "react-icons/md";
+import { BsFillChatDotsFill } from "react-icons/bs";
 import serverAPI from "../../api/serverApi";
 import { headerOptions } from "../../types/types";
 import { RemoveCookie } from "../../services/jsCookie";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { StyledRequestHelpIcon } from "./StyledRequestHelpIcon";
 import MakeRequest from "../../pages/makeRequest/MakeRequest";
+import { StyledIcons } from "./StyledIcons";
+import { StyledLogo } from "./StyledLogo";
+import logoText from "../../assets/images/logoText.png";
+import logoIcon from "../../assets/images/marker.svg";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
@@ -46,6 +52,12 @@ function NavBar() {
 
   return (
     <>
+      <NavLink to="/">
+        <StyledLogo>
+          <img src={logoText} id="logoText" alt="text" />
+          <img src={logoIcon} alt="icon" />
+        </StyledLogo>
+      </NavLink>
       <StyledHamburgerIcons id="burgerIcon" onClick={toggleHamburger}>
         {hamburgerOpen ? <AiOutlineClose /> : <FiMenu />}
       </StyledHamburgerIcons>
@@ -91,12 +103,18 @@ function NavBar() {
           )}
         </StyledHamburgerList>
       </StyledHamburgerMenu>
+      {currentUser && (
+        <StyledIcons>
+          <MdOutlineNotifications />
+          <NavLink to="/chat">
+            <BsFillChatDotsFill className="icon" />
+          </NavLink>
+        </StyledIcons>
+      )}
       {currentUser && !currentUser.helper && (
         <StyledRequestHelpIcon>
           {isLoaded && (
-            <NavLink to="#" onClick={() => setRequestPopup((prev) => !prev)}>
-              <GrAddCircle />
-            </NavLink>
+            <GrAddCircle onClick={() => setRequestPopup((prev) => !prev)} />
           )}
         </StyledRequestHelpIcon>
       )}

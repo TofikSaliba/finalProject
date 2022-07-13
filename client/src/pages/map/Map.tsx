@@ -48,12 +48,14 @@ function Map() {
     mapRef.current!.setZoom(14);
   }, []);
 
-  const goToAddress = async () => {
+  const goToAddress = async (e: any) => {
+    e.preventDefault();
     try {
       const results = await getGeocode({ address: value });
       const { lat, lng } = getLatLng(results[0]);
       panTo({ lat, lng });
       console.log(lat, lng);
+      setValue("");
     } catch (error) {
       console.log("😱 Error: ");
     }
@@ -81,9 +83,9 @@ function Map() {
     <>
       {!isLoading && isLoaded && (
         <>
-          <StyledSearch>
-            <MapSearchInput sendValue={setValue} />
-            <StyledButton onClick={goToAddress}>go</StyledButton>
+          <StyledSearch onSubmit={goToAddress}>
+            <MapSearchInput sendValue={value} setSendValue={setValue} />
+            <button>go</button>
           </StyledSearch>
           <div onClick={closeMenu} className="map-wrapper">
             <GoogleMap

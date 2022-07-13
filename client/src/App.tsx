@@ -20,13 +20,13 @@ function App() {
   };
 
   return (
-    <div onClick={closeMenu} id="main" className="mainContainer">
-      <SocketProvider id={currentUser && currentUser._id}>
-        <MarkersAndChatProvider>
+    <SocketProvider id={currentUser && currentUser._id}>
+      <MarkersAndChatProvider>
+        <div onClick={closeMenu} id="main" className="mainContainer">
           <Routes />
-        </MarkersAndChatProvider>
-      </SocketProvider>
-    </div>
+        </div>
+      </MarkersAndChatProvider>
+    </SocketProvider>
   );
 }
 
