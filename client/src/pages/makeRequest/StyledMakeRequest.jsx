@@ -18,6 +18,12 @@ export const StyledMakeRequest = styled.div`
     width: 30%;
     min-width: 280px;
     gap: 2rem;
+    .closePopup {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
     .error {
       color: red;
       text-align: center;

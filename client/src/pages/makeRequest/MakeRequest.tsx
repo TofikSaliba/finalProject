@@ -13,6 +13,7 @@ function MakeRequest({ close }: any) {
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [value, setValue] = useState("");
+  const [success, setSuccess] = useState(false);
   const { currentUser } = useUser();
   const { addMarker } = useMarkersAndChat();
   const { isLoaded } = usePreferences();
@@ -34,36 +35,49 @@ function MakeRequest({ close }: any) {
     }
     if (errorOccured) return;
     addMarker(currentUser!, description, date, value, coords);
-    close(false);
+    setSuccess(true);
   };
 
   return (
     <StyledMakeRequest>
       {isLoaded && (
         <div className="smallContainer">
-          <MapSearchInput sendValue={setValue} />
-          <StyledInputContainer>
-            <textarea
-              id="description"
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-            />
-            <label className={description && "filled"} htmlFor="description">
-              Describe what you need...
-            </label>
-          </StyledInputContainer>
-          <h3>When?</h3>
-          <input
-            style={{ fontSize: "1.5rem" }}
-            onChange={(e) => setDate(e.target.value)}
-            type="datetime-local"
-            value={date}
-          />
-          <div className="error">{error}</div>
-          <div className="buttons">
-            <StyledButton onClick={() => close(false)}>Cancel</StyledButton>
-            <StyledButton onClick={addMarkerAndClose}>Add</StyledButton>
-          </div>
+          {!success && (
+            <>
+              <MapSearchInput sendValue={setValue} />
+              <StyledInputContainer>
+                <textarea
+                  id="description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                />
+                <label
+                  className={description && "filled"}
+                  htmlFor="description"
+                >
+                  Describe what you need...
+                </label>
+              </StyledInputContainer>
+              <h3>When?</h3>
+              <input
+                style={{ fontSize: "1.5rem" }}
+                onChange={(e) => setDate(e.target.value)}
+                type="datetime-local"
+                value={date}
+              />
+              <div className="error">{error}</div>
+              <div className="buttons">
+                <StyledButton onClick={() => close(false)}>Cancel</StyledButton>
+                <StyledButton onClick={addMarkerAndClose}>Add</StyledButton>
+              </div>
+            </>
+          )}
+          {success && (
+            <div className="closePopup">
+              <h3>Request Created!</h3>
+              <StyledButton onClick={() => close(false)}>Close</StyledButton>
+            </div>
+          )}
         </div>
       )}
     </StyledMakeRequest>

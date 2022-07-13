@@ -14,6 +14,7 @@ function Profile({ match }: any) {
   const { isLoading, setIsLoading } = usePreferences();
 
   useEffect(() => {
+    setIsLoading(true);
     if (match.params.id) {
       (async function getUser() {
         try {
@@ -24,11 +25,12 @@ function Profile({ match }: any) {
           setNotFound(false);
         } catch (err: any) {
           setNotFound(true);
+          setIsLoading(false);
           console.log(err.message);
         }
       })();
     }
-  }, [match.params.id]);
+  }, [match.params.id, setIsLoading]);
 
   useEffect(() => {
     if (currentUser && !match.params.id) {

@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { contextsProviderProps, Marker, User } from "../types/types";
+import { contextsProviderProps, MarkerObj, User } from "../types/types";
 import serverAPI from "../api/serverApi";
 import { Coords } from "../types/types";
 import { useSocket } from "./Socket.context";
 
 interface MarkersAndChatContextValue {
-  markers: Marker[];
-  setMarkers: (markers: Marker[]) => void;
+  markers: MarkerObj[];
+  setMarkers: (markers: MarkerObj[]) => void;
   addMarker: (
     currentUser: User,
     description: string,
@@ -29,7 +29,7 @@ const MarkersAndChatContext = React.createContext<MarkersAndChatContextValue>(
 export const useMarkersAndChat = () => useContext(MarkersAndChatContext);
 
 const MarkersAndChatProvider = ({ children }: contextsProviderProps) => {
-  const [markers, setMarkers] = useState<Marker[]>([]);
+  const [markers, setMarkers] = useState<MarkerObj[]>([]);
   const [refetchMarkers, setRefetchMarkers] = useState(false);
   const { socket } = useSocket();
 
@@ -41,7 +41,6 @@ const MarkersAndChatProvider = ({ children }: contextsProviderProps) => {
     socket?.on("updateMarkers", () => {
       setRefetchMarkers((prev) => !prev);
     });
-    console.log(new Date("2022-07-27T06:29").toUTCString());
     return () => socket?.off("updateMarkers");
   }, [refetchMarkers, socket]);
 

@@ -47,7 +47,7 @@ export interface Coords {
   lat: number;
   lng: number;
 }
-export interface Marker {
+export interface MarkerObj {
   _id: string;
   userID: string;
   userName: string;
