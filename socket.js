@@ -2,6 +2,7 @@ import http from "http";
 import { app } from "./server/app.js";
 import { Server } from "socket.io";
 import { addMsgFromServer } from "./server/controllers/chat.controllers.js";
+import { Notifications } from "./server/models/notifications/notifications.model.js";
 
 export const server = http.createServer(app);
 const URL =
@@ -15,6 +16,7 @@ export const io = new Server(server, {
 
 io.on("connection", (socket) => {
   const id = socket.handshake.query.id;
+  const name = socket.handshake.query.name;
   socket.join(id);
   console.log(`new websocket connection on ${id}`);
 
@@ -24,7 +26,18 @@ io.on("connection", (socket) => {
     socket.to(to).emit("receiveMessage", { msg: message });
   });
 
-  socket.on("markerAdded", () => {
+  socket.on("markerAdded", async () => {
     io.emit("updateMarkers");
+    const usersNotifs = await Notifications.find({});
+    for (const user of usersNotifs) {
+      if (user._id !== id) {
+        user.notifications.unshift({
+          userID: id,
+          name,
+        });
+        ++user.unRead;
+        await user.save();
+      }
+    }
   });
 });

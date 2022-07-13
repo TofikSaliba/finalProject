@@ -20,19 +20,19 @@ export function useSocket() {
   return useContext(SocketContext);
 }
 
-export function SocketProvider({ id, children }: contextsProviderProps) {
+export function SocketProvider({ user, children }: contextsProviderProps) {
   const [socket, setSocket] = useState<any>(null);
 
   useEffect((): any => {
-    if (id) {
+    if (user) {
       const URL =
         process.env.NODE_ENV === "production" ? "/" : "http://localhost:5000";
-      const newSocket = io(URL, { query: { id } });
+      const newSocket = io(URL, { query: { id: user._id, name: user.name } });
       setSocket(newSocket);
 
       return () => newSocket.close();
     }
-  }, [id]);
+  }, [user]);
 
   const sendMessage = (to: string, message: string) => {
     socket.emit("sendMessage", { to, message });

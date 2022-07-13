@@ -24,7 +24,7 @@ export interface User {
 
 export interface contextsProviderProps {
   children: ReactNode;
-  id?: string | null;
+  user?: User | null;
 }
 
 export interface UserContextValue {
@@ -59,13 +59,15 @@ export interface MarkerObj {
   __v: number;
 }
 
-interface NotificaitonObject {
+export interface NotificationObject {
+  _id: string;
   userID: string;
-  content: string;
+  name: string;
   accepted?: boolean;
+  accept?: string;
   reviewed?: boolean;
 }
 export interface Notifications {
-  notificaitons: NotificaitonObject[];
+  notifications: NotificationObject[];
   unRead: number;
 }

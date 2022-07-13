@@ -7,11 +7,11 @@ export const StyledIcons = styled.div`
   gap: 2rem;
   top: 1rem;
   right: auto;
-  cursor: pointer;
   font-size: 4rem;
   z-index: 18;
   .icon {
     color: #111;
+    cursor: pointer;
   }
   &::before {
     content: "${(props) => (props.notCount > 0 ? props.notCount : "")}";

@@ -20,7 +20,7 @@ function App() {
   };
 
   return (
-    <SocketProvider id={currentUser && currentUser._id}>
+    <SocketProvider user={currentUser ?? null}>
       <UsersUpdatesProvider>
         <div onClick={closeMenu} id="main" className="mainContainer">
           <Routes />

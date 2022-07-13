@@ -7,9 +7,12 @@ const notificationsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
       },
-      content: {
+      name: {
         type: String,
         required: true,
+      },
+      accept: {
+        type: String,
       },
       accepted: {
         type: Boolean,

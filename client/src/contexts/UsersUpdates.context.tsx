@@ -42,6 +42,7 @@ export const useUsersUpdates = () => useContext(UsersUpdatesContext);
 const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
   const [markers, setMarkers] = useState<MarkerObj[]>([]);
   const [refetchMarkers, setRefetchMarkers] = useState(false);
+  const [refetchNotifs, setRefetchNotifs] = useState(false);
   const [notifications, setNotifications] = useState<Notifications | null>(
     null
   );
@@ -59,6 +60,7 @@ const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
     })();
     socket?.on("updateMarkers", () => {
       setRefetchMarkers((prev) => !prev);
+      setRefetchNotifs((prev) => !prev);
     });
     return () => socket?.off("updateMarkers");
   }, [refetchMarkers, socket]);
@@ -81,7 +83,7 @@ const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
         }
       })();
     }
-  }, [currentUser, token]);
+  }, [currentUser, token, refetchNotifs]);
 
   const addMarker = async (
     currentUser: User,
