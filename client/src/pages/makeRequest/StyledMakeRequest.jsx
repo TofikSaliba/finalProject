@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import device from "../../utils/mediaQuerySizes";
 
 export const StyledMakeRequest = styled.div`
   position: fixed;
@@ -37,6 +38,23 @@ export const StyledMakeRequest = styled.div`
     .buttons {
       display: flex;
       justify-content: space-between;
+    }
+    @media ${device.customHeight} {
+      overflow: scroll;
+      max-height: 500px;
+      gap: 0.7rem;
+      textarea {
+        font-size: 1.5rem;
+        height: 120px;
+      }
+      input {
+        min-height: 25px;
+        font-size: 1.5rem;
+      }
+    }
+    @media ${device.customHeight2} {
+      max-height: 300px;
+      gap: 0.6rem;
     }
   }
 `;

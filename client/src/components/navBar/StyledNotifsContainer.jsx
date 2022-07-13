@@ -8,9 +8,11 @@ export const StyledNotifsContainer = styled.div`
   left: -80%;
   width: 240px;
   min-height: 40px;
+  max-height: 300px;
   font-size: clamp(1.4rem, 3vw, 2rem);
   padding: 1rem;
   border-radius: 10px;
+  overflow: scroll;
   &:before {
     content: "";
     position: absolute;

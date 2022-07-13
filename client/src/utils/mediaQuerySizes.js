@@ -14,6 +14,8 @@ const device = {
   mobileM: `(max-width: ${size.mobileM})`,
   mobileL: `(max-width: ${size.mobileL})`,
   custom1: `(max-width: ${size.custom1})`,
+  customHeight: `(max-height: ${size.tablet})`,
+  customHeight2: `(max-height: ${size.custom1})`,
   tablet: `(max-width: ${size.tablet})`,
   laptop: `(max-width: ${size.laptop})`,
   laptopL: `(max-width: ${size.laptopL})`,
