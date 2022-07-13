@@ -1,19 +1,25 @@
 import React, { useContext, useState, useEffect } from "react";
 import { contextsProviderProps, Marker, User } from "../types/types";
 import serverAPI from "../api/serverApi";
+import { Coords } from "../types/types";
+import { useSocket } from "./Socket.context";
 
 interface MarkersAndChatContextValue {
   markers: Marker[];
   setMarkers: (markers: Marker[]) => void;
-  addMarker: (currentUser: User, description: string, when: string) => boolean;
+  addMarker: (
+    currentUser: User,
+    description: string,
+    when: string,
+    address: string,
+    coords: Coords
+  ) => void;
 }
 
 const emptyMarkersAndChatContextValue: MarkersAndChatContextValue = {
   markers: [],
   setMarkers: function (): void {},
-  addMarker: function (): boolean {
-    return true;
-  },
+  addMarker: function (): void {},
 };
 
 const MarkersAndChatContext = React.createContext<MarkersAndChatContextValue>(
@@ -24,49 +30,39 @@ export const useMarkersAndChat = () => useContext(MarkersAndChatContext);
 
 const MarkersAndChatProvider = ({ children }: contextsProviderProps) => {
   const [markers, setMarkers] = useState<Marker[]>([]);
+  const [refetchMarkers, setRefetchMarkers] = useState(false);
+  const { socket } = useSocket();
 
   useEffect(() => {
     (async function () {
       const { data } = await serverAPI().get("/markers/getAllMarkers");
-      setMarkers(data.Markers);
+      setMarkers(data.markers);
     })();
-  }, []);
-
-  const addMarker = (currentUser: User, description: string, when: string) => {
-    const userHasMarker = markers.find((marker) => {
-      return marker.userID === currentUser._id;
+    socket?.on("updateMarkers", () => {
+      setRefetchMarkers((prev) => !prev);
     });
-    if (userHasMarker) return false;
-    const successHandler = async (position: any) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const { data } = await serverAPI().post("/markers/addMarker", {
-        userID: currentUser?._id,
-        description,
-        when,
-        lat,
-        lng,
-      });
-      setMarkers((prev) => [...prev, data.newMarker]);
-    };
+    console.log(new Date("2022-07-27T06:29").toUTCString());
+    return () => socket?.off("updateMarkers");
+  }, [refetchMarkers, socket]);
 
-    const errorHandler = async (errorObj: any) => {
-      alert(errorObj.code + ": " + errorObj.message);
-
-      const { data } = await serverAPI().post("/markers/addMarker", {
-        userID: currentUser?._id,
-        description,
-        when,
-        lat: 32.0831488,
-        lng: 34.8930624,
-      });
-      setMarkers((prev) => [...prev, data.newMarker]);
-    };
-    navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
-      enableHighAccuracy: true,
-      maximumAge: 10000,
+  const addMarker = async (
+    currentUser: User,
+    description: string,
+    when: string,
+    address: string,
+    coords: Coords
+  ) => {
+    const { data } = await serverAPI().post("/markers/addMarker", {
+      userID: currentUser?._id,
+      userName: currentUser?.name,
+      description,
+      when,
+      address,
+      coords,
+      expire: new Date(when).getTime(),
     });
-    return true;
+    setMarkers((prev) => [...prev, data.newMarker]);
+    socket.emit("markerAdded");
   };
 
   const value: MarkersAndChatContextValue = {

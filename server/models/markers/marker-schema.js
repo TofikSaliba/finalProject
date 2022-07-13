@@ -5,6 +5,10 @@ const markerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  userName: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -13,13 +17,23 @@ const markerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  lat: {
+  address: {
+    type: String,
+    required: true,
+  },
+  expire: {
     type: Number,
     required: true,
   },
-  lng: {
-    type: Number,
-    required: true,
+  coords: {
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
   },
 });
 

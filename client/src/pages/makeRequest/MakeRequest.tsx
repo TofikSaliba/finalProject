@@ -6,6 +6,7 @@ import { useUser } from "../../contexts/User.context";
 import { useMarkersAndChat } from "../../contexts/MarkersAndChat.context";
 import MapSearchInput from "../../components/mapSearchInput/MapSearchInput";
 import { usePreferences } from "../../contexts/Preferences.context";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 
 function MakeRequest({ close }: any) {
   const [date, setDate] = useState("");
@@ -16,18 +17,25 @@ function MakeRequest({ close }: any) {
   const { addMarker } = useMarkersAndChat();
   const { isLoaded } = usePreferences();
 
-  const addMarkerAndClose = () => {
+  const addMarkerAndClose = async () => {
     if (description === "" || date === "") {
       return setError("Must fill inputs");
     }
-    if (addMarker(currentUser!, description, date)) {
-      close(false);
-    } else {
-      setError("Already have an open request!");
+    let errorOccured = false;
+    const coords = { lat: 0, lng: 0 };
+    try {
+      const results = await getGeocode({ address: value });
+      const { lat, lng } = getLatLng(results[0]);
+      coords.lat = lat;
+      coords.lng = lng;
+    } catch (err) {
+      errorOccured = true;
+      setError("Invalid Address!");
     }
+    if (errorOccured) return;
+    addMarker(currentUser!, description, date, value, coords);
+    close(false);
   };
-
-  console.log(value);
 
   return (
     <StyledMakeRequest>

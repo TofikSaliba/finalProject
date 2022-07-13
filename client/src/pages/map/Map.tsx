@@ -54,7 +54,7 @@ function Map() {
   };
 
   const handleMarkerClick = (marker: any) => {
-    console.log("hihi");
+    console.log(marker);
   };
 
   const getMarkers = () => {
@@ -62,8 +62,8 @@ function Map() {
       return (
         <Marker
           key={idx}
-          onClick={handleMarkerClick}
-          position={{ lat: marker.lat, lng: marker.lng }}
+          onClick={() => handleMarkerClick(marker)}
+          position={{ lat: marker.coords.lat, lng: marker.coords.lng }}
         />
       );
     });

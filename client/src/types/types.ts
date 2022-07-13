@@ -43,12 +43,18 @@ export interface CustomInputProps {
   onChange: (e: any) => void;
 }
 
+export interface Coords {
+  lat: number;
+  lng: number;
+}
 export interface Marker {
   _id: string;
   userID: string;
+  userName: string;
   description: string;
   when: string;
-  lat: number;
-  lng: number;
+  coords: Coords;
+  address: string;
+  expire: number;
   __v: number;
 }

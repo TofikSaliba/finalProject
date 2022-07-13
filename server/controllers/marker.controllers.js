@@ -1,5 +1,7 @@
 import { Marker } from "../models/markers/marker-model.js";
 
+import { io } from "../../socket.js";
+
 export const addMarker = async (req, res) => {
   try {
     const newMarker = new Marker(req.body);
@@ -12,8 +14,18 @@ export const addMarker = async (req, res) => {
 
 export const getAllMarkers = async (req, res) => {
   try {
-    const Markers = await Marker.find({});
-    res.status(200).json({ Markers });
+    const markers = await Marker.find({});
+    const filteredExpired = markers.filter((marker) => {
+      if (marker.expire <= Date.now()) {
+        marker.remove();
+        return false;
+      }
+      return true;
+    });
+    if (filteredExpired.length !== markers.length) {
+      io.emit("updateMarkers");
+    }
+    res.status(200).json({ markers: filteredExpired });
   } catch (err) {
     res.status(404).json({ code: 404, message: err.message });
   }
