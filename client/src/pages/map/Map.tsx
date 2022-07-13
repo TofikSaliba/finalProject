@@ -9,7 +9,7 @@ import {
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { useUser } from "../../contexts/User.context";
-import { useMarkersAndChat } from "../../contexts/MarkersAndChat.context";
+import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
 import MapSearchInput from "../../components/mapSearchInput/MapSearchInput";
 import { StyledSearch } from "./StyledSearch";
 import { StyledButton } from "../../components/styledButton/StyledButton";
@@ -18,7 +18,7 @@ import markerIcon from "../../assets/images/marker.svg";
 import { StyledInfowindow } from "./StyledInfowindow";
 
 function Map() {
-  const { markers } = useMarkersAndChat();
+  const { markers } = useUsersUpdates();
   const { currentUser } = useUser();
   const { setIsLoading, isLoading, setHamburgerOpen, hamburgerOpen, isLoaded } =
     usePreferences();

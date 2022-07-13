@@ -1,10 +1,17 @@
 import { User } from "../models/user/user.model.js";
+import { Notifications } from "../models/notifications/notifications.model.js";
 
 export const signUpUser = async (req, res) => {
   try {
     req.body.email = req.body.email.toLowerCase();
     const newUser = new User(req.body);
     await newUser.save();
+    const userNotifs = new Notifications({
+      _id: newUser._id,
+      notifications: [],
+      unRead: 0,
+    });
+    await userNotifs.save();
     const token = await newUser.generateAuthToken();
     res.status(201).json({ newUser, token });
   } catch (err) {

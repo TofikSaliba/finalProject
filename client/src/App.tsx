@@ -1,6 +1,6 @@
 import Routes from "./pages/routes/Routes";
 import SocketProvider from "./contexts/Socket.context";
-import MarkersAndChatProvider from "./contexts/MarkersAndChat.context";
+import UsersUpdatesProvider from "./contexts/UsersUpdates.context";
 import { useUser } from "./contexts/User.context";
 import { usePreferences } from "./contexts/Preferences.context";
 
@@ -21,11 +21,11 @@ function App() {
 
   return (
     <SocketProvider id={currentUser && currentUser._id}>
-      <MarkersAndChatProvider>
+      <UsersUpdatesProvider>
         <div onClick={closeMenu} id="main" className="mainContainer">
           <Routes />
         </div>
-      </MarkersAndChatProvider>
+      </UsersUpdatesProvider>
     </SocketProvider>
   );
 }

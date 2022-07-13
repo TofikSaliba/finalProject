@@ -58,3 +58,14 @@ export interface MarkerObj {
   expire: number;
   __v: number;
 }
+
+interface NotificaitonObject {
+  userID: string;
+  content: string;
+  accepted?: boolean;
+  reviewed?: boolean;
+}
+export interface Notifications {
+  notificaitons: NotificaitonObject[];
+  unRead: number;
+}

@@ -8,7 +8,7 @@ import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { GrAddCircle } from "react-icons/gr";
 import { MdOutlineNotifications } from "react-icons/md";
-import { BsFillChatDotsFill } from "react-icons/bs";
+import { BsChatDots } from "react-icons/bs";
 import serverAPI from "../../api/serverApi";
 import { headerOptions } from "../../types/types";
 import { RemoveCookie } from "../../services/jsCookie";
@@ -19,10 +19,12 @@ import { StyledIcons } from "./StyledIcons";
 import { StyledLogo } from "./StyledLogo";
 import logoText from "../../assets/images/logoText.png";
 import logoIcon from "../../assets/images/marker.svg";
+import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
+  const { notifications } = useUsersUpdates();
   const {
     setIsLoading,
     hamburgerOpen,
@@ -104,10 +106,10 @@ function NavBar() {
         </StyledHamburgerList>
       </StyledHamburgerMenu>
       {currentUser && (
-        <StyledIcons>
+        <StyledIcons notCount={notifications?.unRead} msgCount={4}>
           <MdOutlineNotifications />
           <NavLink to="/chat">
-            <BsFillChatDotsFill className="icon" />
+            <BsChatDots className="icon" />
           </NavLink>
         </StyledIcons>
       )}

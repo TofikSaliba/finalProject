@@ -3,7 +3,7 @@ import { StyledInputContainer } from "../../components/customInput/styledInputCo
 import { StyledMakeRequest } from "./StyledMakeRequest";
 import { StyledButton } from "../../components/styledButton/StyledButton";
 import { useUser } from "../../contexts/User.context";
-import { useMarkersAndChat } from "../../contexts/MarkersAndChat.context";
+import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
 import MapSearchInput from "../../components/mapSearchInput/MapSearchInput";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
@@ -15,7 +15,7 @@ function MakeRequest({ close }: any) {
   const [value, setValue] = useState("");
   const [success, setSuccess] = useState(false);
   const { currentUser } = useUser();
-  const { addMarker } = useMarkersAndChat();
+  const { addMarker } = useUsersUpdates();
   const { isLoaded } = usePreferences();
 
   const addMarkerAndClose = async () => {
