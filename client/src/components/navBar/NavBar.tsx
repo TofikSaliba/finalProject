@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useUser } from "../../contexts/User.context";
 import { StyledHamburgerMenu } from "./styledHamburgerMenu";
@@ -22,12 +22,15 @@ import logoIcon from "../../assets/images/marker.svg";
 import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
 import { StyledNotifsContainer } from "./StyledNotifsContainer";
 import { StyledButton } from "../styledButton/StyledButton";
+import { useSocket } from "../../contexts/Socket.context";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
   const [displayNotifs, setDisplayNotifs] = useState(false);
+  const [responding, setResponding] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
   const { notifications, setNotifications } = useUsersUpdates();
+  const { socket } = useSocket();
   const {
     setIsLoading,
     hamburgerOpen,
@@ -35,6 +38,10 @@ function NavBar() {
     toggleHamburger,
     isLoaded,
   } = usePreferences();
+
+  useEffect(() => {
+    setResponding(false);
+  }, [notifications]);
 
   const logOut = async () => {
     const options: headerOptions = {
@@ -58,41 +65,33 @@ function NavBar() {
   const getNotificationsJSX = () => {
     return notifications?.notifications.map((notObj) => {
       if (notObj.accepted !== undefined) {
-        const response = notObj.accepted ? "accepted" : "declined";
-        return (
-          <div key={notObj._id}>
-            {`${notObj.name} has ${response} your offer! Make sure to leave a review after!`}
-            <hr />
-          </div>
-        );
+        return responseToOfferingJSX(notObj);
       } else if (notObj.accept !== undefined) {
         if (notObj.accept === "deciding") {
           return decidingToAcceptNotifJSX(notObj);
         } else if (notObj.accept === "yes") {
-          return (
-            <div key={notObj._id}>
-              {`You have accepted ${notObj.name}'s offer! Make sure you leave a review after`}
-              <hr />
-            </div>
-          );
+          return acceptedOfferJSX(notObj);
+        } else if (notObj.accept === "no") {
+          return declinedOfferJSX(notObj);
+        } else {
+          return offerMarkerExpiredJSX(notObj);
         }
-        return (
-          <div key={notObj._id}>
-            {`You have declined ${notObj.name}'s offer!`}
-            <hr />
-          </div>
-        );
       } else if (notObj.reviewed !== undefined) {
-        return (
-          <div key={notObj._id}>
-            {`${notObj.name} has posted a review about you! check profile!`}
-            <hr />
-          </div>
-        );
+        return userLeftAReviewJSx(notObj);
       } else {
         return addedMarkerNotifJSX(notObj);
       }
     });
+  };
+
+  const responseToOfferingJSX = (notObj: NotificationObject) => {
+    const response = notObj.accepted ? "accepted" : "declined";
+    return (
+      <div key={notObj._id}>
+        {`${notObj.name} has ${response} your offer! Make sure to leave a review after!`}
+        <hr />
+      </div>
+    );
   };
 
   const decidingToAcceptNotifJSX = (notObj: NotificationObject) => {
@@ -100,9 +99,60 @@ function NavBar() {
       <div key={notObj._id}>
         {`${notObj.name} is offering to help!`}
         <div className="decidingContainer">
-          <StyledButton>Decline</StyledButton>
-          <StyledButton>Accept</StyledButton>
+          <StyledButton
+            disabled={responding}
+            onClick={() => handleResponse("no", notObj)}
+          >
+            Decline
+          </StyledButton>
+          <StyledButton
+            disabled={responding}
+            onClick={() => handleResponse("yes", notObj)}
+          >
+            Accept
+          </StyledButton>
         </div>
+        <hr />
+      </div>
+    );
+  };
+
+  const handleResponse = (res: string, notObj: NotificationObject) => {
+    setResponding(true);
+    socket.emit("responseToOffer", { res, notObj });
+  };
+
+  const acceptedOfferJSX = (notObj: NotificationObject) => {
+    return (
+      <div key={notObj._id}>
+        {`You have accepted ${notObj.name}'s offer! Make sure you leave a review after`}
+        <hr />
+      </div>
+    );
+  };
+
+  const declinedOfferJSX = (notObj: NotificationObject) => {
+    return (
+      <div key={notObj._id}>
+        {`You have declined ${notObj.name}'s offer!`}
+        <hr />
+      </div>
+    );
+  };
+
+  const offerMarkerExpiredJSX = (notObj: NotificationObject) => {
+    return (
+      <div key={notObj._id}>
+        {`${notObj.name} offered to help, but request has expired!`}
+        <hr />
+      </div>
+    );
+  };
+
+  const userLeftAReviewJSx = (notObj: NotificationObject) => {
+    return (
+      <div key={notObj._id}>
+        {`${notObj.name} has posted a review about you! check profile!`}
         <hr />
       </div>
     );

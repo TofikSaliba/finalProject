@@ -13,6 +13,20 @@ export const StyledNotifsContainer = styled.div`
   padding: 1rem;
   border-radius: 10px;
   overflow: scroll;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   &:before {
     content: "";
     position: absolute;

@@ -58,7 +58,6 @@ function Map() {
       const results = await getGeocode({ address: value });
       const { lat, lng } = getLatLng(results[0]);
       panTo({ lat, lng });
-      console.log(lat, lng);
       setValue("");
     } catch (error) {
       console.log("😱 Error: ");

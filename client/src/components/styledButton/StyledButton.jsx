@@ -5,6 +5,7 @@ export const StyledButton = styled.button`
   border: none;
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
   padding: 0.8rem 2.4rem;
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
   font-size: clamp(1.2rem, 2vw, 2rem);
   letter-spacing: 2px;
   border-radius: 8px;

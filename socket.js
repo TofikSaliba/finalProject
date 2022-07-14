@@ -52,4 +52,38 @@ io.on("connection", (socket) => {
     await userNotifs.save();
     socket.to(to).emit("updateMarkersOrNotifs");
   });
+
+  socket.on("responseToOffer", async ({ res, notObj }) => {
+    let notifData = { _id: notObj._id };
+    let dataToBeUpdated = { ...notObj, accept: res };
+    const updated = await Notifications.findOneAndUpdate(
+      { "notifications._id": notifData._id },
+      { $set: { "notifications.$": dataToBeUpdated } }
+    );
+    const responseToUser = await Notifications.findById(notObj.userID);
+    responseToUser.notifications.unshift({
+      userID: id,
+      name,
+      accepted: res === "yes" ? true : false,
+    });
+    ++responseToUser.unRead;
+    await responseToUser.save();
+    socket.emit("updateMarkersOrNotifs");
+    socket.to(notObj.userID).emit("updateMarkersOrNotifs");
+  });
 });
+
+// (async function () {
+//   let notifData = { _id: "62cf48824998ec6fd69bc67a" };
+//   let obj = {
+//     accept: "deciding",
+//     userID: "62cf3d9a4998ec6fd69bc427",
+//     _id: "62cf48824998ec6fd69bc67a",
+//     name: "tofik",
+//   };
+//   let dataToBeUpdated = { ...obj, accept: "boooooo" };
+//   const updated = await Notifications.findOneAndUpdate(
+//     { "notifications._id": notifData._id },
+//     { $set: { "notifications.$": dataToBeUpdated } }
+//   );
+// })();
