@@ -74,3 +74,11 @@ export interface Notifications {
   unRead: number;
   helper: boolean;
 }
+
+export interface Review {
+  _id: string;
+  userID: string;
+  name: string;
+  content: string;
+  time: string;
+}

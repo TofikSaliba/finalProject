@@ -24,8 +24,9 @@ export const StyledProfileContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 5rem;
   }
-  @media ${device.tablet} {
+  @media ${device.custom2} {
     grid-template-columns: 1fr;
   }
 `;

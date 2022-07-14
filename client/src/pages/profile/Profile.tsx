@@ -2,16 +2,24 @@ import { useEffect, useState } from "react";
 import { Redirect, NavLink } from "react-router-dom";
 import { useUser } from "../../contexts/User.context";
 import { usePreferences } from "../../contexts/Preferences.context";
-import { User } from "../../types/types";
+import { User, Review, headerOptions } from "../../types/types";
 import serverAPI from "../../api/serverApi";
 import avatarIMG from "../../assets/images/avatar.jpg";
 import { StyledProfileContainer } from "./StyledProfileContainer";
+import { StyledButton } from "../../components/styledButton/StyledButton";
+import ReviewPopup from "../../components/reviewPopup/ReviewPopup";
+import { StyledReviewCard } from "./StyledReviewCard";
+import { useSocket } from "../../contexts/Socket.context";
 
 function Profile({ match }: any) {
   const [user, setUser] = useState<User>();
+  const [userReviews, setUserReviews] = useState<Review[]>([]);
   const [notFound, setNotFound] = useState(false);
-  const { currentUser } = useUser();
+  const [addReviewPopup, setAddReviewPopup] = useState(false);
+
+  const { currentUser, token } = useUser();
   const { isLoading, setIsLoading } = usePreferences();
+  const { socket } = useSocket();
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,6 +50,26 @@ function Profile({ match }: any) {
     }, 1000);
   }, [setIsLoading, currentUser, match.params.id]);
 
+  useEffect(() => {
+    if (user) {
+      (async function () {
+        const options: headerOptions = {
+          headers: {
+            Authorization: token!,
+          },
+        };
+        try {
+          const { data } = await serverAPI(options).get(
+            `/reviews/getUserReviews/${user._id}`
+          );
+          setUserReviews(data.reviews.reviews);
+        } catch (err: any) {
+          console.log(err.message);
+        }
+      })();
+    }
+  }, [user, token]);
+
   const getUserJSX = () => {
     if (!user) return;
     return (
@@ -61,6 +89,25 @@ function Profile({ match }: any) {
     );
   };
 
+  const getUserReviewsJSX = () => {
+    return userReviews.map((review) => {
+      return (
+        <StyledReviewCard key={review._id}>
+          <div className="reviewHeader">
+            <span>{review.name}</span>
+            <span>{review.time}</span>
+          </div>
+          <p className="reviewContent">{review.content}</p>
+        </StyledReviewCard>
+      );
+    });
+  };
+
+  const handleReviewAddRerender = (addedReview: Review) => {
+    setUserReviews((prev) => [addedReview, ...prev]);
+    socket.emit("reviewNotification", { toID: user?._id });
+  };
+
   if (!currentUser && !isLoading) {
     return <Redirect to="/login" />;
   }
@@ -69,6 +116,13 @@ function Profile({ match }: any) {
 
   return !isLoading ? (
     <StyledProfileContainer>
+      {addReviewPopup && (
+        <ReviewPopup
+          handleAdd={handleReviewAddRerender}
+          user={user}
+          close={setAddReviewPopup}
+        />
+      )}
       <div className="userInfo">{getUserJSX()}</div>
       <div className="reviews">
         <h1>
@@ -76,6 +130,13 @@ function Profile({ match }: any) {
             ? "My Reviews"
             : `${user?.name}'s Reviews`}
         </h1>
+        {user?._id !== currentUser?._id &&
+          currentUser?.usersToReview.includes(user?._id!) && (
+            <StyledButton onClick={() => setAddReviewPopup(true)}>
+              Add Review
+            </StyledButton>
+          )}
+        {getUserReviewsJSX()}
       </div>
     </StyledProfileContainer>
   ) : (

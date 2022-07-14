@@ -19,7 +19,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 9rem;
+  padding: 9rem 2rem 4rem 2rem;
 }
 
 .lottieSpinner {

@@ -5,7 +5,7 @@ export const getUserNotifications = async (req, res) => {
   try {
     const notifications = await Notifications.findById(req.user._id);
     for (let notObj of notifications.notifications) {
-      if (["yes", "no", "deciding"].includes(notObj.accept)) {
+      if (notObj.accept === "deciding") {
         const marker = await Marker.findById(notObj.markerID);
         if (!marker) {
           notObj.accept = "expired";

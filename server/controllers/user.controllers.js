@@ -1,6 +1,7 @@
 import { User } from "../models/user/user.model.js";
 import { Notifications } from "../models/notifications/notifications.model.js";
 import { UserChat } from "../models/userChat/userChat.model.js";
+import { Reviews } from "../models/reviews/reviews.model.js";
 
 export const signUpUser = async (req, res) => {
   try {
@@ -20,6 +21,11 @@ export const signUpUser = async (req, res) => {
       unRead: 0,
     });
     await userChat.save();
+    const userReviews = new Reviews({
+      _id: newUser._id,
+      Reviews: [],
+    });
+    await userReviews.save();
     const token = await newUser.generateAuthToken();
     res.status(201).json({ newUser, token });
   } catch (err) {

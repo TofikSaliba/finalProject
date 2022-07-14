@@ -7,6 +7,7 @@ import { contactRouter } from "./routes/contact-route.js";
 import { chatRouter } from "./routes/chat-routes.js";
 import { markerRouter } from "./routes/marker-routes.js";
 import { notificationsRouter } from "./routes/notifications-routes.js";
+import { reviewsRouter } from "./routes/reviews-routes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/contact", contactRouter);
 app.use("/chat", chatRouter);
 app.use("/markers", markerRouter);
 app.use("/notifications", notificationsRouter);
+app.use("/reviews", reviewsRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));

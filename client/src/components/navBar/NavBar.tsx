@@ -131,13 +131,13 @@ function NavBar() {
         },
       };
       try {
+        await serverAPI(options).delete(
+          `/markers/deleteMarker/${notObj.markerID}`
+        );
         await serverAPI(options).put("/users/updateUsersToReview", {
           add: true,
           toUser: notObj.userID,
         });
-        await serverAPI(options).delete(
-          `/markers/deleteMarker/${notObj.markerID}`
-        );
       } catch (err: any) {
         console.log(err.message);
       }

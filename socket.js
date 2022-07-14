@@ -69,7 +69,18 @@ io.on("connection", (socket) => {
     });
     ++responseToUser.unRead;
     await responseToUser.save();
-    socket.emit("updateMarkersOrNotifs");
     socket.to(notObj.userID).emit("updateMarkersOrNotifs");
+  });
+
+  socket.on("reviewNotification", async ({ toID }) => {
+    const userNotifs = await Notifications.findById(toID);
+    userNotifs.notifications.unshift({
+      userID: id,
+      name,
+      reviewed: true,
+    });
+    ++userNotifs.unRead;
+    await userNotifs.save();
+    socket.to(toID).emit("updateMarkersOrNotifs");
   });
 });
