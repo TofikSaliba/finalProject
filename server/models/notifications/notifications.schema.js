@@ -14,6 +14,9 @@ const notificationsSchema = new mongoose.Schema({
       accept: {
         type: String,
       },
+      markerID: {
+        type: String,
+      },
       accepted: {
         type: Boolean,
       },

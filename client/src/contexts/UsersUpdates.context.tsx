@@ -59,8 +59,6 @@ const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
       }
     })();
     socket?.on("updateMarkersOrNotifs", () => {
-      console.log("here");
-
       setRefetchMarkers((prev) => !prev);
       setRefetchNotifs((prev) => !prev);
     });
@@ -80,7 +78,6 @@ const UsersUpdatesProvider = ({ children }: contextsProviderProps) => {
             "/notifications/getUserNotifications"
           );
           setNotifications(data.notifications);
-          console.log(data.notifications);
         } catch (err: any) {
           console.log(err.response.data || err.message);
         }

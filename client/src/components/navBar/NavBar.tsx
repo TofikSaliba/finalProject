@@ -89,9 +89,10 @@ function NavBar() {
 
   const responseToOfferingJSX = (notObj: NotificationObject) => {
     const response = notObj.accepted ? "accepted" : "declined";
+    const review = notObj.accepted ? " Make sure to leave a review after!" : "";
     return (
       <div key={notObj._id}>
-        {`${notObj.name} has ${response} your offer! Make sure to leave a review after!`}
+        {`${notObj.name} has ${response} your offer!${review}`}
         <hr />
       </div>
     );
@@ -120,9 +121,27 @@ function NavBar() {
     );
   };
 
-  const handleResponse = (res: string, notObj: NotificationObject) => {
+  const handleResponse = async (res: string, notObj: NotificationObject) => {
     setResponding(true);
     socket.emit("responseToOffer", { res, notObj });
+    if (res === "yes") {
+      const options: headerOptions = {
+        headers: {
+          Authorization: token!,
+        },
+      };
+      try {
+        await serverAPI(options).put("/users/updateUsersToReview", {
+          add: true,
+          toUser: notObj.userID,
+        });
+        await serverAPI(options).delete(
+          `/markers/deleteMarker/${notObj.markerID}`
+        );
+      } catch (err: any) {
+        console.log(err.message);
+      }
+    }
   };
 
   const acceptedOfferJSX = (notObj: NotificationObject) => {

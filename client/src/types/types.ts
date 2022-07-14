@@ -67,6 +67,7 @@ export interface NotificationObject {
   accepted?: boolean;
   accept?: string;
   reviewed?: boolean;
+  markerID?: string;
 }
 export interface Notifications {
   notifications: NotificationObject[];

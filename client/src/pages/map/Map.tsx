@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import {
   GoogleMap,
   Marker,
@@ -36,9 +36,11 @@ function Map() {
 
   useEffect(() => {
     setIsLoading(true);
-    if (isLoaded) {
-      setIsLoading(false);
-    }
+    setTimeout(() => {
+      if (isLoaded) {
+        setIsLoading(false);
+      }
+    }, 1400);
   }, [isLoaded, setIsLoading]);
 
   const closeMenu = () => {
@@ -91,7 +93,7 @@ function Map() {
 
   const handleSendHelp = async () => {
     setCanHelp(false);
-    socket.emit("offerHelp", { to: selected?.userID });
+    socket.emit("offerHelp", { to: selected?.userID, markerID: selected?._id });
     const options: headerOptions = {
       headers: {
         Authorization: token!,
@@ -109,6 +111,13 @@ function Map() {
       console.log(err.response.data || err.message);
     }
   };
+
+  if (
+    (!currentUser && !isLoading) ||
+    (currentUser && !isLoading && !currentUser.helper)
+  ) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <>

@@ -41,12 +41,13 @@ io.on("connection", (socket) => {
     io.emit("updateMarkersOrNotifs");
   });
 
-  socket.on("offerHelp", async ({ to }) => {
+  socket.on("offerHelp", async ({ to, markerID }) => {
     const userNotifs = await Notifications.findById(to);
     userNotifs.notifications.unshift({
       userID: id,
       name,
       accept: "deciding",
+      markerID,
     });
     ++userNotifs.unRead;
     await userNotifs.save();

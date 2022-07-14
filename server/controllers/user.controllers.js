@@ -122,3 +122,22 @@ export const updateHelpOffered = async (req, res) => {
     res.status(500).json({ code: 500, message: err.message });
   }
 };
+
+export const updateUsersToReview = async (req, res) => {
+  try {
+    if (req.body.add) {
+      const otherUser = await User.findById(req.body.toUser);
+      otherUser.usersToReview.push(req.user._id);
+      await otherUser.save();
+      req.user.usersToReview.push(req.body.toUser);
+    } else {
+      req.user.usersToReview = req.user.usersToReview.filter((ID) => {
+        return ID.toString() !== req.body.toUser;
+      });
+    }
+    await req.user.save();
+    res.json({ updatedUser: req.user });
+  } catch (err) {
+    res.status(500).json({ code: 500, message: err.message });
+  }
+};

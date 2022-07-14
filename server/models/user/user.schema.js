@@ -55,7 +55,6 @@ const userSchema = new mongoose.Schema({
   },
   helpOffered: {
     type: [mongoose.Schema.Types.ObjectId],
-    default: [],
   },
   usersToReview: {
     type: [mongoose.Schema.Types.ObjectId],
