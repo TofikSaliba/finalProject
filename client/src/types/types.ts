@@ -13,11 +13,11 @@ export interface User {
   address: string;
   coords: any;
   helpOffered: string[];
+  usersToReview: string[];
   img?: string;
   age?: string;
   from?: string;
   bio?: string;
-  chat?: Array<object>;
   helper: boolean;
   password?: string;
   __v: number;
@@ -71,4 +71,5 @@ export interface NotificationObject {
 export interface Notifications {
   notifications: NotificationObject[];
   unRead: number;
+  helper: boolean;
 }

@@ -1,5 +1,6 @@
 import { User } from "../models/user/user.model.js";
 import { Notifications } from "../models/notifications/notifications.model.js";
+import { UserChat } from "../models/userChat/userChat.model.js";
 
 export const signUpUser = async (req, res) => {
   try {
@@ -10,8 +11,15 @@ export const signUpUser = async (req, res) => {
       _id: newUser._id,
       notifications: [],
       unRead: 0,
+      helper: newUser.helper,
     });
     await userNotifs.save();
+    const userChat = new UserChat({
+      _id: newUser._id,
+      chat: [],
+      unRead: 0,
+    });
+    await userChat.save();
     const token = await newUser.generateAuthToken();
     res.status(201).json({ newUser, token });
   } catch (err) {

@@ -57,18 +57,10 @@ const userSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
-  chat: [
-    {
-      recipentName: {
-        type: String,
-        required: true,
-      },
-      messages: {
-        type: [String],
-        required: true,
-      },
-    },
-  ],
+  usersToReview: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+  },
   tokens: [
     {
       token: {

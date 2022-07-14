@@ -1,28 +1,31 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+
 import { useUser } from "../../contexts/User.context";
-import { StyledHamburgerMenu } from "./styledHamburgerMenu";
-import { StyledHamburgerList } from "./styledHamburgerList";
-import { StyledHamburgerIcons } from "./styledHamburgerIcons";
-import { FiMenu } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
-import { GrAddCircle } from "react-icons/gr";
-import { MdOutlineNotifications } from "react-icons/md";
-import { BsChatDots } from "react-icons/bs";
+import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
+import { usePreferences } from "../../contexts/Preferences.context";
+import { useSocket } from "../../contexts/Socket.context";
+
 import serverAPI from "../../api/serverApi";
 import { headerOptions, NotificationObject } from "../../types/types";
 import { RemoveCookie } from "../../services/jsCookie";
-import { usePreferences } from "../../contexts/Preferences.context";
+
+import { StyledHamburgerMenu } from "./styledHamburgerMenu";
+import { StyledHamburgerList } from "./styledHamburgerList";
+import { StyledHamburgerIcons } from "./styledHamburgerIcons";
+import { StyledNotifsContainer } from "./StyledNotifsContainer";
+import { StyledButton } from "../styledButton/StyledButton";
 import { StyledRequestHelpIcon } from "./StyledRequestHelpIcon";
 import MakeRequest from "../../pages/makeRequest/MakeRequest";
 import { StyledIcons } from "./StyledIcons";
 import { StyledLogo } from "./StyledLogo";
 import logoText from "../../assets/images/logoText.png";
 import logoIcon from "../../assets/images/marker.svg";
-import { useUsersUpdates } from "../../contexts/UsersUpdates.context";
-import { StyledNotifsContainer } from "./StyledNotifsContainer";
-import { StyledButton } from "../styledButton/StyledButton";
-import { useSocket } from "../../contexts/Socket.context";
+import { FiMenu } from "react-icons/fi";
+import { AiOutlineClose } from "react-icons/ai";
+import { GrAddCircle } from "react-icons/gr";
+import { MdOutlineNotifications } from "react-icons/md";
+import { BsChatDots } from "react-icons/bs";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);

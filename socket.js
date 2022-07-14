@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
   socket.on("markerAdded", async () => {
     const usersNotifs = await Notifications.find({});
     for (const user of usersNotifs) {
-      if (user._id.toString() !== id) {
+      if (user._id.toString() !== id && user.helper) {
         user.notifications.unshift({
           userID: id,
           name,
@@ -72,18 +72,3 @@ io.on("connection", (socket) => {
     socket.to(notObj.userID).emit("updateMarkersOrNotifs");
   });
 });
-
-// (async function () {
-//   let notifData = { _id: "62cf48824998ec6fd69bc67a" };
-//   let obj = {
-//     accept: "deciding",
-//     userID: "62cf3d9a4998ec6fd69bc427",
-//     _id: "62cf48824998ec6fd69bc67a",
-//     name: "tofik",
-//   };
-//   let dataToBeUpdated = { ...obj, accept: "boooooo" };
-//   const updated = await Notifications.findOneAndUpdate(
-//     { "notifications._id": notifData._id },
-//     { $set: { "notifications.$": dataToBeUpdated } }
-//   );
-// })();

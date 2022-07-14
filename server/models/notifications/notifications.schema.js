@@ -27,6 +27,10 @@ const notificationsSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  helper: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 export { notificationsSchema };
