@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState, useEffect } from "react";
 import { useSocket } from "../../contexts/Socket.context";
 
@@ -43,13 +44,13 @@ function Home() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <label htmlFor="">To ID</label>
+      {/* <label htmlFor="">To ID</label>
       <input ref={IDRef} type="text" />
       <button onClick={setID}>set</button>
       <label htmlFor="">Message</label>
       <input ref={inputRef} type="text" />
       <button onClick={fetch}>send</button>
-      <div>{getMsgs()}</div>
+      <div>{getMsgs()}</div> */}
     </div>
   );
 }

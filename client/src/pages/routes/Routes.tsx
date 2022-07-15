@@ -18,7 +18,6 @@ const Routes = () => {
     <>
       <div className="bg-container"></div>
       <NavBar />
-      {/* <button onClick={sendMsg}>Click</button> */}
       {isLoading && (
         <Lottie className="lottieSpinner" animationData={helpSpinner} loop />
       )}
