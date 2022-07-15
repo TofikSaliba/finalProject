@@ -83,3 +83,28 @@ export interface Review {
   content: string;
   time: string;
 }
+
+export interface Msg {
+  msg: string;
+}
+
+export interface Messages {
+  _id: string;
+  text: string;
+  sender: boolean;
+}
+
+export interface Recipent {
+  _id: string;
+  recipentID: string;
+  recipentName: string;
+  messages: Messages[];
+  unRead: number;
+}
+
+export interface ChatObj {
+  _id: string;
+  chat: Recipent[];
+  newMsgUsersIDs: string[];
+  __v: number;
+}

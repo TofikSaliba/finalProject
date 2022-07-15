@@ -18,7 +18,6 @@ export const signUpUser = async (req, res) => {
     const userChat = new UserChat({
       _id: newUser._id,
       chat: [],
-      unRead: 0,
     });
     await userChat.save();
     const userReviews = new Reviews({

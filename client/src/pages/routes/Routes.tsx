@@ -10,6 +10,7 @@ import Login from "../login/Login";
 import About from "../about/About";
 import Contact from "../contact/Contact";
 import { usePreferences } from "../../contexts/Preferences.context";
+import Chat from "../chat/Chat";
 
 const Routes = () => {
   const { isLoading } = usePreferences();
@@ -29,6 +30,7 @@ const Routes = () => {
         <Route exact component={About} path="/about" />
         <Route exact component={SignUp} path="/signUp" />
         <Route exact component={Login} path="/login" />
+        <Route exact component={Chat} path="/chat" />
       </Switch>
     </>
   );

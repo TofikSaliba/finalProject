@@ -5,6 +5,7 @@ import { useUser } from "./contexts/User.context";
 import { usePreferences } from "./contexts/Preferences.context";
 
 import "./App.css";
+import ChatProvider from "./contexts/Chat.context";
 
 function App() {
   const { currentUser } = useUser();
@@ -26,11 +27,13 @@ function App() {
 
   return (
     <SocketProvider user={currentUser ?? null}>
-      <UsersUpdatesProvider>
-        <div onClick={closeMenu} id="main" className="mainContainer">
-          <Routes />
-        </div>
-      </UsersUpdatesProvider>
+      <ChatProvider>
+        <UsersUpdatesProvider>
+          <div onClick={closeMenu} id="main" className="mainContainer">
+            <Routes />
+          </div>
+        </UsersUpdatesProvider>
+      </ChatProvider>
     </SocketProvider>
   );
 }

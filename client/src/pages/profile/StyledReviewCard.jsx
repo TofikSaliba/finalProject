@@ -9,6 +9,7 @@ export const StyledReviewCard = styled.div`
   gap: 2rem;
   background: burlywood;
   padding: 2rem;
+  padding-top: 0.8rem;
   border-radius: 10px;
   a {
     text-decoration: none;
@@ -21,6 +22,7 @@ export const StyledReviewCard = styled.div`
   .reviewHeader {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
   }
   @media ${device.tablet} {
     width: 90%;
@@ -29,6 +31,7 @@ export const StyledReviewCard = styled.div`
   @media ${device.mobileL} {
     width: 100%;
     padding: 1rem;
+    padding-top: 0;
     span {
       font-size: 1.3rem;
     }

@@ -4,12 +4,10 @@ import { contextsProviderProps } from "../types/types";
 
 interface SocketContextValue {
   socket: any;
-  sendMessage: (to: string, message: string) => void;
 }
 
 const emptySocketContextValue: SocketContextValue = {
   socket: null,
-  sendMessage: function (): void {},
 };
 
 const SocketContext = React.createContext<SocketContextValue>(
@@ -34,13 +32,8 @@ export function SocketProvider({ user, children }: contextsProviderProps) {
     }
   }, [user]);
 
-  const sendMessage = (to: string, message: string) => {
-    socket.emit("sendMessage", { to, message });
-  };
-
   const value: SocketContextValue = {
     socket,
-    sendMessage,
   };
 
   return (
