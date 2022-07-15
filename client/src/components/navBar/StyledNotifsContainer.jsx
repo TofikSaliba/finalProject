@@ -14,6 +14,11 @@ export const StyledNotifsContainer = styled.div`
   border-radius: 10px;
   overflow: scroll;
   overflow-x: hidden;
+  a {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: blue;
+  }
   ::-webkit-scrollbar {
     width: 5px;
   }

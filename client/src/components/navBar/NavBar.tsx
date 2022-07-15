@@ -29,7 +29,6 @@ import { BsChatDots } from "react-icons/bs";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
-  const [displayNotifs, setDisplayNotifs] = useState(false);
   const [responding, setResponding] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
   const { notifications, setNotifications } = useUsersUpdates();
@@ -40,6 +39,9 @@ function NavBar() {
     setHamburgerOpen,
     toggleHamburger,
     isLoaded,
+    displayNotifs,
+    setDisplayNotifs,
+    toggleNotifications,
   } = usePreferences();
 
   useEffect(() => {
@@ -73,9 +75,9 @@ function NavBar() {
         if (notObj.accept === "deciding") {
           return decidingToAcceptNotifJSX(notObj);
         } else if (notObj.accept === "yes") {
-          return acceptedOfferJSX(notObj);
+          return acceptedDeclineOfferJSX(notObj, true);
         } else if (notObj.accept === "no") {
-          return declinedOfferJSX(notObj);
+          return acceptedDeclineOfferJSX(notObj, false);
         } else {
           return offerMarkerExpiredJSX(notObj);
         }
@@ -92,7 +94,13 @@ function NavBar() {
     const review = notObj.accepted ? " Make sure to leave a review after!" : "";
     return (
       <div key={notObj._id}>
-        {`${notObj.name} has ${response} your offer!${review}`}
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {` has ${response} your offer!${review}`}
         <hr />
       </div>
     );
@@ -101,7 +109,13 @@ function NavBar() {
   const decidingToAcceptNotifJSX = (notObj: NotificationObject) => {
     return (
       <div key={notObj._id}>
-        {`${notObj.name} is offering to help!`}
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {" is offering to help!"}
         <div className="decidingContainer">
           <StyledButton
             disabled={responding}
@@ -144,19 +158,20 @@ function NavBar() {
     }
   };
 
-  const acceptedOfferJSX = (notObj: NotificationObject) => {
+  const acceptedDeclineOfferJSX = (
+    notObj: NotificationObject,
+    response: boolean
+  ) => {
     return (
       <div key={notObj._id}>
-        {`You have accepted ${notObj.name}'s offer! Make sure you leave a review after`}
-        <hr />
-      </div>
-    );
-  };
-
-  const declinedOfferJSX = (notObj: NotificationObject) => {
-    return (
-      <div key={notObj._id}>
-        {`You have declined ${notObj.name}'s offer!`}
+        {response ? "You have accepted " : "You have declined "}
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {`'s offer!${response ? " Make sure you leave a review after" : ""}`}
         <hr />
       </div>
     );
@@ -165,7 +180,13 @@ function NavBar() {
   const offerMarkerExpiredJSX = (notObj: NotificationObject) => {
     return (
       <div key={notObj._id}>
-        {`${notObj.name} offered to help, but request has expired!`}
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {" has offered to help, but the request has expired!"}
         <hr />
       </div>
     );
@@ -174,7 +195,16 @@ function NavBar() {
   const userLeftAReviewJSx = (notObj: NotificationObject) => {
     return (
       <div key={notObj._id}>
-        {`${notObj.name} has posted a review about you! check profile!`}
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {" has posted a review about you! check your "}
+        <NavLink onClick={() => setDisplayNotifs(false)} to={"/profile"}>
+          <span>profile</span>
+        </NavLink>
         <hr />
       </div>
     );
@@ -183,14 +213,23 @@ function NavBar() {
   const addedMarkerNotifJSX = (notObj: NotificationObject) => {
     return (
       <div key={notObj._id}>
-        <span>{notObj.name}</span> is requesting help, check the map!
+        <NavLink
+          onClick={() => setDisplayNotifs(false)}
+          to={`/profile/${notObj.userID}`}
+        >
+          <span>{notObj.name}</span>
+        </NavLink>
+        {" is requesting help, check the "}
+        <NavLink onClick={() => setDisplayNotifs(false)} to={"/map"}>
+          <span>map</span>
+        </NavLink>
         <hr />
       </div>
     );
   };
 
   const handleNotifClick = async () => {
-    setDisplayNotifs((prev) => !prev);
+    toggleNotifications();
     if (notifications!.unRead > 0) {
       const options: headerOptions = {
         headers: {
@@ -214,7 +253,15 @@ function NavBar() {
           <img src={logoIcon} alt="icon" />
         </StyledLogo>
       </NavLink>
-      <StyledHamburgerIcons id="burgerIcon" onClick={toggleHamburger}>
+      <StyledHamburgerIcons
+        id="burgerIcon"
+        onClick={() => {
+          toggleHamburger();
+          if (displayNotifs) {
+            setDisplayNotifs(false);
+          }
+        }}
+      >
         {hamburgerOpen ? <AiOutlineClose /> : <FiMenu />}
       </StyledHamburgerIcons>
       <StyledHamburgerMenu id="burgerMenu" active={hamburgerOpen}>

@@ -33,6 +33,7 @@ export interface UserContextValue {
   setCurrentUser: (currentUser: User | null) => void;
   token: string | null;
   setToken: (token: string | null) => void;
+  updateUsersToReview: () => void;
 }
 
 export interface CustomInputProps {

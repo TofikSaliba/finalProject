@@ -17,7 +17,7 @@ function Profile({ match }: any) {
   const [notFound, setNotFound] = useState(false);
   const [addReviewPopup, setAddReviewPopup] = useState(false);
 
-  const { currentUser, token } = useUser();
+  const { currentUser, token, updateUsersToReview } = useUser();
   const { isLoading, setIsLoading } = usePreferences();
   const { socket } = useSocket();
 
@@ -94,7 +94,9 @@ function Profile({ match }: any) {
       return (
         <StyledReviewCard key={review._id}>
           <div className="reviewHeader">
-            <span>{review.name}</span>
+            <NavLink to={`/profile/${review.userID}`}>
+              <span>{review.name}</span>
+            </NavLink>
             <span>{review.time}</span>
           </div>
           <p className="reviewContent">{review.content}</p>
@@ -105,6 +107,7 @@ function Profile({ match }: any) {
 
   const handleReviewAddRerender = (addedReview: Review) => {
     setUserReviews((prev) => [addedReview, ...prev]);
+    updateUsersToReview();
     socket.emit("reviewNotification", { toID: user?._id });
   };
 

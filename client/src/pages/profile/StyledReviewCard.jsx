@@ -10,6 +10,11 @@ export const StyledReviewCard = styled.div`
   background: burlywood;
   padding: 2rem;
   border-radius: 10px;
+  a {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: blue;
+  }
   span {
     font-weight: bold;
   }

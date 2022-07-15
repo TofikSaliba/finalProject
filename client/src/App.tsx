@@ -8,15 +8,20 @@ import "./App.css";
 
 function App() {
   const { currentUser } = useUser();
-  const { setHamburgerOpen, hamburgerOpen } = usePreferences();
+  const { setHamburgerOpen, hamburgerOpen, setDisplayNotifs } =
+    usePreferences();
 
   const closeMenu = (e: any) => {
     if (
       e.target.id !== "burgerIcon" &&
       e.target.id !== "burgerMenu" &&
       hamburgerOpen
-    )
+    ) {
       setHamburgerOpen(false);
+    }
+    if (e.target.id === "main") {
+      setDisplayNotifs(false);
+    }
   };
 
   return (

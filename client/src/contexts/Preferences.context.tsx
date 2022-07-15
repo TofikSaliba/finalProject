@@ -8,7 +8,10 @@ interface PreferencesContextValue {
   hamburgerOpen: boolean;
   setHamburgerOpen: (hamburgerOpen: boolean) => void;
   toggleHamburger: () => void;
+  toggleNotifications: () => void;
   isLoaded: boolean;
+  displayNotifs: boolean;
+  setDisplayNotifs: (hamburgerOpen: boolean) => void;
 }
 
 const emptyPreferencesContextValue: PreferencesContextValue = {
@@ -17,7 +20,10 @@ const emptyPreferencesContextValue: PreferencesContextValue = {
   hamburgerOpen: false,
   setHamburgerOpen: function (): void {},
   toggleHamburger: function (): void {},
+  toggleNotifications: function (): void {},
   isLoaded: false,
+  displayNotifs: false,
+  setDisplayNotifs: function (): void {},
 };
 
 const PreferencesContext = React.createContext<PreferencesContextValue>(
@@ -31,6 +37,7 @@ const libraries: ["places"] = ["places"];
 const PreferencesProvider = ({ children }: contextsProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
+  const [displayNotifs, setDisplayNotifs] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP!,
     libraries,
@@ -40,6 +47,10 @@ const PreferencesProvider = ({ children }: contextsProviderProps) => {
     setHamburgerOpen((prev) => !prev);
   };
 
+  const toggleNotifications = () => {
+    setDisplayNotifs((prev) => !prev);
+  };
+
   const value: PreferencesContextValue = {
     isLoading,
     setIsLoading,
@@ -47,6 +58,9 @@ const PreferencesProvider = ({ children }: contextsProviderProps) => {
     setHamburgerOpen,
     toggleHamburger,
     isLoaded,
+    displayNotifs,
+    setDisplayNotifs,
+    toggleNotifications,
   };
 
   return (

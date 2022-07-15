@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   padding: 9rem 2rem 4rem 2rem;
 }
@@ -29,12 +29,11 @@ body {
 
 .map-wrapper {
   width: 100%;
-  display: flex;
-  height: calc(100vh - 14rem);
 }
 
 .map-container {
   width: 100%;
+  height: calc(100vh - 16rem);
 }
 
 .searchX {

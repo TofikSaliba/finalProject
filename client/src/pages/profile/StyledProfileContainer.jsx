@@ -5,12 +5,13 @@ export const StyledProfileContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
   width: 90%;
-  height: 90vh;
+  height: 100%;
   .userInfo {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     h2 {
+      text-transform: capitalize;
       text-align: center;
       font-size: 5rem;
     }

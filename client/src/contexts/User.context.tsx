@@ -9,6 +9,7 @@ const emptyUserContextValue: UserContextValue = {
   setCurrentUser: function (): void {},
   token: null,
   setToken: function (): void {},
+  updateUsersToReview: function (): void {},
 };
 
 const UserContext = React.createContext<UserContextValue>(
@@ -22,6 +23,7 @@ export function useUser() {
 export function UserProvider({ children }: contextsProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [refetchUser, setRefetchUser] = useState(false);
 
   useEffect(() => {
     const savedToken = GetCookie("userToken");
@@ -43,7 +45,7 @@ export function UserProvider({ children }: contextsProviderProps) {
         }
       })();
     }
-  }, []);
+  }, [refetchUser]);
 
   useEffect(() => {
     const savedToken = GetCookie("userToken");
@@ -52,11 +54,16 @@ export function UserProvider({ children }: contextsProviderProps) {
     }
   }, [token]);
 
+  const updateUsersToReview = () => {
+    setRefetchUser((prev) => !prev);
+  };
+
   const value: UserContextValue = {
     currentUser,
     setCurrentUser,
     token,
     setToken,
+    updateUsersToReview,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
