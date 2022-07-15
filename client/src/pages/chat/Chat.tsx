@@ -1,44 +1,87 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import CustomInput from "../../components/customInput/CustomInput";
+import { StyledButton } from "../../components/styledButton/StyledButton";
 import { useChat } from "../../contexts/Chat.context";
+import { usePreferences } from "../../contexts/Preferences.context";
+import { StyledChatContainer } from "./StyledChatContainer";
 
 function Chat() {
-  const inputRef: any = useRef();
-  const IDRef: any = useRef();
-  const { sendMessage } = useChat();
-  const [msgs, setMsgs] = useState<string[]>([]);
+  const [msgText, setMsgText] = useState("");
   const [recipentID, setRecipentID] = useState("");
+  const [currIndex, setCurrIndex] = useState(0);
+  const { sendMessage, userMessages } = useChat();
+  const { setIsLoading, isLoading } = usePreferences();
 
-  const fetch = async () => {
-    if (recipentID === "") return;
+  useEffect(() => {
+    if (userMessages?.chat.length! > 0) {
+      setRecipentID(userMessages!.chat[0].recipentID);
+    }
+  }, [userMessages]);
 
-    let msg = inputRef.current.value;
-    setMsgs((prev) => [msg, ...prev]);
-    sendMessage(recipentID, inputRef.current.value);
-    inputRef.current.value = "";
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [setIsLoading]);
+
+  //   const getMsgs = () => {
+  //     return msgs.map((msg, idx) => {
+  //       return <div key={idx}>{msg}</div>;
+  //     });
+  //   };
+
+  //   const setID = () => {
+  //     setRecipentID(IDRef.current.value);
+  //     IDRef.current.value = "";
+  //   };
+
+  const getMsgText = (e: any) => {
+    setMsgText(e.target.value);
   };
 
-  const getMsgs = () => {
-    return msgs.map((msg, idx) => {
-      return <div key={idx}>{msg}</div>;
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (msgText === "") return;
+    sendMessage(recipentID, msgText, currIndex);
+    setMsgText("");
+  };
+
+  const getChatMessagesJSX = () => {
+    if (!userMessages || userMessages.chat.length === 0) return;
+    return userMessages.chat[currIndex].messages.map((msgObj, idx) => {
+      return <div key={idx}>{msgObj.text}</div>;
     });
   };
 
-  const setID = () => {
-    setRecipentID(IDRef.current.value);
-    IDRef.current.value = "";
-  };
-
-  return (
-    <div>
-      {/* <label htmlFor="">To ID</label>
-      <input ref={IDRef} type="text" />
-      <button onClick={setID}>set</button>
-      <label htmlFor="">Message</label>
-      <input ref={inputRef} type="text" />
-      <button onClick={fetch}>send</button>
-      <div>{getMsgs()}</div> */}
-    </div>
+  return isLoading ? (
+    <></>
+  ) : (
+    <StyledChatContainer>
+      <div className="recipentsNames">
+        <ul>
+          <li>one ha</li>
+          <li>one ha</li>
+          <li>one ha</li>
+          <li>one ha</li>
+          <li>one ha</li>
+        </ul>
+      </div>
+      <div className="chatBox">
+        {getChatMessagesJSX()}
+        <form onSubmit={handleSubmit}>
+          <CustomInput
+            id={"chatMsg"}
+            onChange={getMsgText}
+            type="text"
+            value={msgText}
+            inputLabel="Message Text"
+            required={true}
+          />
+          <StyledButton>Send</StyledButton>
+        </form>
+      </div>
+    </StyledChatContainer>
   );
 }
 

@@ -20,9 +20,9 @@ io.on("connection", (socket) => {
   socket.join(id);
   console.log(`new websocket connection on ${id}`);
 
-  socket.on("sendMessage", ({ to, message }) => {
-    addMsgFromServer(to, id, message);
-    addMsgFromServer(id, to, message);
+  socket.on("sendMessage", async ({ to, message }) => {
+    await addMsgFromServer(to, id, message, false);
+    addMsgFromServer(id, to, message, true);
     socket.to(to).emit("receiveMessage", { msg: message });
   });
 

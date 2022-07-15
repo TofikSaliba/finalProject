@@ -89,7 +89,6 @@ export interface Msg {
 }
 
 export interface Messages {
-  _id: string;
   text: string;
   sender: boolean;
 }
