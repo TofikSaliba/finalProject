@@ -10,14 +10,15 @@ function Chat() {
   const [msgText, setMsgText] = useState("");
   const [recipentID, setRecipentID] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
-  const { sendMessage, userMessages } = useChat();
+  const { sendMessage, userMessages, resetUnreadCount } = useChat();
   const { setIsLoading, isLoading } = usePreferences();
 
   useEffect(() => {
     if (userMessages?.chat.length! > 0) {
-      setRecipentID(userMessages!.chat[0].recipentID);
+      setRecipentID(userMessages!.chat[currIndex].recipentID);
     }
-  }, [userMessages]);
+    resetUnreadCount();
+  }, [userMessages, resetUnreadCount, currIndex]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,19 +55,22 @@ function Chat() {
     });
   };
 
+  const getChatRecipentsJSX = () => {
+    if (!userMessages || userMessages.chat.length === 0) return;
+    return userMessages.chat.map((chatObj, idx) => {
+      return (
+        <div className="recipent" onClick={() => setCurrIndex(idx)} key={idx}>
+          {chatObj.recipentName}
+        </div>
+      );
+    });
+  };
+
   return isLoading ? (
     <></>
   ) : (
     <StyledChatContainer>
-      <div className="recipentsNames">
-        <ul>
-          <li>one ha</li>
-          <li>one ha</li>
-          <li>one ha</li>
-          <li>one ha</li>
-          <li>one ha</li>
-        </ul>
-      </div>
+      <div className="recipentsNames">{getChatRecipentsJSX()}</div>
       <div className="chatBox">
         {getChatMessagesJSX()}
         <form onSubmit={handleSubmit}>

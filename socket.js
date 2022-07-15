@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", async ({ to, message }) => {
     await addMsgFromServer(to, id, message, false);
-    addMsgFromServer(id, to, message, true);
+    await addMsgFromServer(id, to, message, true);
     socket.to(to).emit("receiveMessage", { msg: message });
   });
 

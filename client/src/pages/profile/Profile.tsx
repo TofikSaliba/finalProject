@@ -10,6 +10,7 @@ import { StyledButton } from "../../components/styledButton/StyledButton";
 import ReviewPopup from "../../components/reviewPopup/ReviewPopup";
 import { StyledReviewCard } from "./StyledReviewCard";
 import { useSocket } from "../../contexts/Socket.context";
+import { useChat } from "../../contexts/Chat.context";
 
 function Profile({ match }: any) {
   const [user, setUser] = useState<User>();
@@ -20,6 +21,7 @@ function Profile({ match }: any) {
   const { currentUser, token, updateUsersToReview } = useUser();
   const { isLoading, setIsLoading } = usePreferences();
   const { socket } = useSocket();
+  const { startConversation } = useChat();
 
   useEffect(() => {
     setIsLoading(true);
@@ -80,9 +82,19 @@ function Profile({ match }: any) {
         {user.age && <div>Age: {user.age}</div>}
         {user.bio && <p>Bio: {user.bio}</p>}
         <div>{user.helper ? "Here to help!" : "Looking for help"}</div>
-        {user._id === currentUser?._id && (
+        {user._id === currentUser?._id ? (
           <div className="editOption">
             <NavLink to="/EditProfile">Edit</NavLink>
+          </div>
+        ) : (
+          <div className="sendMessage">
+            <NavLink to="/chat">
+              <StyledButton
+                onClick={() => startConversation(user?._id, user?.name)}
+              >
+                Message
+              </StyledButton>
+            </NavLink>
           </div>
         )}
       </>

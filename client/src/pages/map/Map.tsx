@@ -18,6 +18,7 @@ import markerIcon from "../../assets/images/marker.svg";
 import { StyledInfowindow } from "./StyledInfowindow";
 import { useSocket } from "../../contexts/Socket.context";
 import serverAPI from "../../api/serverApi";
+import { useChat } from "../../contexts/Chat.context";
 
 function Map() {
   const { markers } = useUsersUpdates();
@@ -33,6 +34,7 @@ function Map() {
     mapRef.current = map;
   }, []);
   const { socket } = useSocket();
+  const { startConversation } = useChat();
 
   useEffect(() => {
     setIsLoading(true);
@@ -158,10 +160,21 @@ function Map() {
                       Address: <span>{selected.address}</span>
                     </div>
                     <div className="windowBtns">
-                      <NavLink to={`./profile/${selected.userID}`}>
+                      <NavLink to={`/profile/${selected.userID}`}>
                         <StyledButton>Profile</StyledButton>
                       </NavLink>
-                      <StyledButton>Message</StyledButton>
+                      <NavLink to="/chat">
+                        <StyledButton
+                          onClick={() =>
+                            startConversation(
+                              selected.userID,
+                              selected.userName
+                            )
+                          }
+                        >
+                          Message
+                        </StyledButton>
+                      </NavLink>
 
                       {canHelp && (
                         <StyledButton

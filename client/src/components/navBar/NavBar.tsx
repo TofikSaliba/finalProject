@@ -26,6 +26,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { GrAddCircle } from "react-icons/gr";
 import { MdOutlineNotifications } from "react-icons/md";
 import { BsChatDots } from "react-icons/bs";
+import { useChat } from "../../contexts/Chat.context";
 
 function NavBar() {
   const [requestPopup, setRequestPopup] = useState(false);
@@ -33,6 +34,7 @@ function NavBar() {
   const { currentUser, setCurrentUser, token, setToken } = useUser();
   const { notifications, setNotifications } = useUsersUpdates();
   const { socket } = useSocket();
+  const { userMessages, resetUnreadCount } = useChat();
   const {
     setIsLoading,
     hamburgerOpen,
@@ -307,14 +309,17 @@ function NavBar() {
         </StyledHamburgerList>
       </StyledHamburgerMenu>
       {currentUser && (
-        <StyledIcons notCount={notifications?.unRead} msgCount={4}>
+        <StyledIcons
+          notCount={notifications?.unRead}
+          msgCount={userMessages?.newMsgUsersIDs.length || 0}
+        >
           <MdOutlineNotifications className="icon" onClick={handleNotifClick} />
           {displayNotifs && (
             <StyledNotifsContainer>
               {getNotificationsJSX()}
             </StyledNotifsContainer>
           )}
-          <NavLink to="/chat">
+          <NavLink onClick={resetUnreadCount} to="/chat">
             <BsChatDots className="icon" />
           </NavLink>
         </StyledIcons>

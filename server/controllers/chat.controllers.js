@@ -36,12 +36,15 @@ export const addMsgFromServer = async (fromID, toID, message, sender) => {
       recipent1.messages.push({ text: message, sender });
       ++recipent1.unRead;
     } else {
-      fromUser.chat.push({
+      fromUser.chat.unshift({
         recipentID: toID,
         recipentName: toUser.name,
         messages: [{ text: message, sender }],
         unRead: 0,
       });
+    }
+    if (!sender && !fromUser.newMsgUsersIDs.includes(toID)) {
+      fromUser.newMsgUsersIDs.push(toID);
     }
     await fromUser.save();
   } catch (err) {
@@ -53,6 +56,17 @@ export const getUserMessages = async (req, res) => {
   try {
     const userChat = await UserChat.findById(req.user._id);
     res.status(200).json({ userChat });
+  } catch (err) {
+    res.status(404).json({ code: 404, message: err.message });
+  }
+};
+
+export const resetUnreadCount = async (req, res) => {
+  try {
+    const userChat = await UserChat.findById(req.user._id);
+    userChat.newMsgUsersIDs = [];
+    userChat.save();
+    res.status(200).json({ message: "success!" });
   } catch (err) {
     res.status(404).json({ code: 404, message: err.message });
   }

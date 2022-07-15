@@ -84,17 +84,12 @@ export interface Review {
   time: string;
 }
 
-export interface Msg {
-  msg: string;
-}
-
 export interface Messages {
   text: string;
   sender: boolean;
 }
 
 export interface Recipent {
-  _id: string;
   recipentID: string;
   recipentName: string;
   messages: Messages[];

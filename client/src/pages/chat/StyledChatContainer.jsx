@@ -6,6 +6,9 @@ export const StyledChatContainer = styled.div`
   grid-template-columns: 1fr 3fr;
   width: 80%;
   background: beige;
+  .recipent {
+    cursor: pointer;
+  }
 
   /* @media ${device.tablet} {
     width: 90%;
