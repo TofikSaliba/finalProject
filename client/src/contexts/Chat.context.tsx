@@ -83,7 +83,8 @@ export function ChatProvider({ children }: contextsProviderProps) {
   };
 
   const resetUnreadCount = async () => {
-    if (userMessages!.newMsgUsersIDs.length === 0) return;
+    if (!userMessages || userMessages.newMsgUsersIDs.length === 0) return;
+
     setUserMessages((prev) => {
       prev!.newMsgUsersIDs = [];
       return prev;
