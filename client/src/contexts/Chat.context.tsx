@@ -28,6 +28,7 @@ export function useChat() {
 
 export function ChatProvider({ children }: contextsProviderProps) {
   const [userMessages, setUserMessages] = useState<ChatObj>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rerender, setRerender] = useState(false);
   const { socket } = useSocket();
   const { currentUser, token } = useUser();
