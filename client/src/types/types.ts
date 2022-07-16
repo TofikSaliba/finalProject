@@ -87,11 +87,13 @@ export interface Review {
 export interface Messages {
   text: string;
   sender: boolean;
+  time: string;
 }
 
 export interface Recipent {
   recipentID: string;
   recipentName: string;
+  img?: string;
   messages: Messages[];
   unRead: number;
 }

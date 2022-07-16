@@ -46,3 +46,9 @@ body {
 .Combobox {
   width: 100%;
 }
+
+@media (max-width: 500px) {
+  .mainContainer {
+    padding: 9rem 1rem 3rem 1rem;
+  }
+}

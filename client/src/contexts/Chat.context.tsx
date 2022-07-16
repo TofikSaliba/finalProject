@@ -77,7 +77,11 @@ export function ChatProvider({ children }: contextsProviderProps) {
   const sendMessage = (to: string, message: string, currIndex: number) => {
     socket.emit("sendMessage", { to, message });
     setUserMessages((prev) => {
-      prev?.chat[currIndex].messages.push({ text: message, sender: true });
+      prev?.chat[currIndex].messages.push({
+        text: message,
+        sender: true,
+        time: new Date().toLocaleString(),
+      });
       return prev;
     });
   };

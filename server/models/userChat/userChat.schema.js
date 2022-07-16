@@ -21,6 +21,10 @@ const userChatSchema = new mongoose.Schema({
             type: Boolean,
             required: true,
           },
+          time: {
+            type: String,
+            required: true,
+          },
         },
       ],
       unRead: {

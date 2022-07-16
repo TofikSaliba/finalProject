@@ -4,6 +4,7 @@ import { StyledButton } from "../../components/styledButton/StyledButton";
 import { useChat } from "../../contexts/Chat.context";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { StyledChatContainer } from "./StyledChatContainer";
+import avatar from "../../assets/images/avatar.jpg";
 
 function Chat() {
   const [msgText, setMsgText] = useState("");
@@ -39,7 +40,18 @@ function Chat() {
   const getChatMessagesJSX = () => {
     if (!userMessages || userMessages.chat.length === 0) return;
     return userMessages.chat[currIndex].messages.map((msgObj, idx) => {
-      return <div key={idx}>{msgObj.text}</div>;
+      return (
+        <div className={`textCont ${msgObj.sender ? "sender" : "recipent"}`}>
+          {msgObj.sender ? <span>{msgObj.time}</span> : ""}
+          <div
+            className={`${msgObj.sender ? "text sender" : "text recipent"}`}
+            key={idx}
+          >
+            {msgObj.text}
+          </div>{" "}
+          {msgObj.sender ? "" : <span>{msgObj.time}</span>}
+        </div>
+      );
     });
   };
 
@@ -48,6 +60,7 @@ function Chat() {
     return userMessages.chat.map((chatObj, idx) => {
       return (
         <div className="recipent" onClick={() => setCurrIndex(idx)} key={idx}>
+          <img src={chatObj.img || avatar} alt="" />
           {chatObj.recipentName}
         </div>
       );
@@ -61,6 +74,7 @@ function Chat() {
       <div className="recipentsNames">{getChatRecipentsJSX()}</div>
       <div className="chatBox">
         {getChatMessagesJSX()}
+        <hr />
         <form onSubmit={handleSubmit}>
           <CustomInput
             id={"chatMsg"}

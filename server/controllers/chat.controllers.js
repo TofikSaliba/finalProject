@@ -33,13 +33,19 @@ export const addMsgFromServer = async (fromID, toID, message, sender) => {
       return recipent.recipentID.toString() === toID;
     });
     if (recipent1) {
-      recipent1.messages.push({ text: message, sender });
+      recipent1.messages.push({
+        text: message,
+        sender,
+        time: new Date().toLocaleString(),
+      });
       ++recipent1.unRead;
     } else {
       fromUser.chat.unshift({
         recipentID: toID,
         recipentName: toUser.name,
-        messages: [{ text: message, sender }],
+        messages: [
+          { text: message, sender, time: new Date().toLocaleString() },
+        ],
         unRead: 0,
       });
     }
