@@ -10,7 +10,7 @@ import { StyledInputContainer } from "../customInput/styledInputContainer";
 
 import "@reach/combobox/styles.css";
 
-function MapSearchInput({ setSendValue, sendValue }: any) {
+function MapSearchInput({ setSendValue, sendValue, ref }: any) {
   const {
     ready,
     value,
@@ -38,6 +38,7 @@ function MapSearchInput({ setSendValue, sendValue }: any) {
             Enter Address...
           </label>
           <ComboboxInput
+            ref={ref}
             id="address"
             value={sendValue}
             onChange={handleInput}

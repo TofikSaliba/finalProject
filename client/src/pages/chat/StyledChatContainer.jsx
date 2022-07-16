@@ -16,39 +16,6 @@ export const StyledChatContainer = styled.div`
     padding-right: 1rem;
     border-right: 1px solid #111;
     overflow: scroll;
-    .recipent {
-      font-size: clamp(1.4rem, 3vw, 2.5rem);
-      text-transform: capitalize;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.3rem 0;
-      cursor: pointer;
-      border-bottom: 1px solid #111;
-      img {
-        width: 40px;
-        border-radius: 50%;
-      }
-    }
-    .recipent.current {
-      background: #37b804;
-      border-radius: 1rem;
-      border: none;
-      color: #fff;
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      display: none;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
   }
   .chatBoxContainer {
     display: flex;
@@ -58,12 +25,14 @@ export const StyledChatContainer = styled.div`
     font-size: clamp(1.4rem, 3vw, 2rem);
     overflow-y: hidden;
     .chatBox {
+      white-space: pre;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       overflow-y: scroll;
       overflow-x: hidden;
       gap: 1rem;
+      padding-bottom: 1rem;
       .textCont {
         display: flex;
         align-items: center;
@@ -106,14 +75,17 @@ export const StyledChatContainer = styled.div`
     }
     form {
       display: flex;
+      border-radius: 8px;
       button {
         padding: 0.3rem;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
       }
-      input {
+      textArea {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
+        height: 70px;
+        padding-top: 1.4rem;
       }
     }
   }
@@ -123,12 +95,6 @@ export const StyledChatContainer = styled.div`
     .recipentsNames {
       gap: 1.5rem;
       padding-right: 0.5rem;
-      .recipent {
-        gap: 0.4rem;
-        img {
-          width: 30px;
-        }
-      }
     }
     .chatBox {
       padding-left: 0.5rem;

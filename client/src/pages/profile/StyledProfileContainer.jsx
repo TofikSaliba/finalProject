@@ -4,8 +4,9 @@ import device from "../../utils/mediaQuerySizes";
 export const StyledProfileContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
-  width: 90%;
+  width: 85%;
   height: 100%;
+  gap: 5rem;
   .userInfo {
     display: flex;
     flex-direction: column;
@@ -29,5 +30,12 @@ export const StyledProfileContainer = styled.div`
   }
   @media ${device.custom2} {
     grid-template-columns: 1fr;
+    gap: 5rem;
+    .userInfo {
+      align-items: center;
+      img {
+        width: 30%;
+      }
+    }
   }
 `;

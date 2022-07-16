@@ -8,6 +8,7 @@ interface ChatContextValue {
   userMessages: ChatObj | undefined;
   sendMessage: (to: string, message: string, currIndex: number) => void;
   resetUnreadCount: () => void;
+  resetInnerUnreadCount: (index: number) => void;
   startConversation: (recipentID: string, recipentName: string) => void;
 }
 
@@ -15,6 +16,7 @@ const emptyChatContextValue: ChatContextValue = {
   userMessages: undefined,
   sendMessage: function (): void {},
   resetUnreadCount: function (): void {},
+  resetInnerUnreadCount: function (): void {},
   startConversation: function (): void {},
 };
 
@@ -106,6 +108,28 @@ export function ChatProvider({ children }: contextsProviderProps) {
     }
   };
 
+  const resetInnerUnreadCount = async (index: number) => {
+    if (!userMessages || userMessages.chat[index].unRead === 0) return;
+
+    setUserMessages((prev) => {
+      prev!.chat[index].unRead = 0;
+      return prev;
+    });
+
+    const options: headerOptions = {
+      headers: {
+        Authorization: token!,
+      },
+    };
+    try {
+      await serverAPI(options).put("/chat/resetInnerUnreadCount", {
+        recipentID: userMessages.chat[index].recipentID,
+      });
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
+
   const startConversation = (recipentID: string, recipentName: string) => {
     const found = userMessages?.chat.find((chatObj) => {
       return chatObj.recipentID === recipentID;
@@ -128,6 +152,7 @@ export function ChatProvider({ children }: contextsProviderProps) {
     sendMessage,
     resetUnreadCount,
     startConversation,
+    resetInnerUnreadCount,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

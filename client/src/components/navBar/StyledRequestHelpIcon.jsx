@@ -8,7 +8,7 @@ export const StyledRequestHelpIcon = styled.div`
   cursor: pointer;
   font-size: 5rem;
   z-index: 20;
-  @media ${device.tablet} {
+  @media ${device.custom3} {
     font-size: 4rem;
     bottom: 0;
     right: 1rem;

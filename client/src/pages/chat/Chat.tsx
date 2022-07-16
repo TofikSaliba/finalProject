@@ -1,24 +1,32 @@
-import { useState, useEffect } from "react";
-import CustomInput from "../../components/customInput/CustomInput";
+import { useState, useEffect, useCallback } from "react";
 import { StyledButton } from "../../components/styledButton/StyledButton";
 import { useChat } from "../../contexts/Chat.context";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { StyledChatContainer } from "./StyledChatContainer";
+import { StyledRecipent } from "./StyledRecipent";
 import avatar from "../../assets/images/avatar.jpg";
+import { StyledInputContainer } from "../../components/customInput/styledInputContainer";
 
 function Chat() {
   const [msgText, setMsgText] = useState("");
   const [recipentID, setRecipentID] = useState("");
   const [currIndex, setCurrIndex] = useState(0);
-  const { sendMessage, userMessages, resetUnreadCount } = useChat();
+  const { sendMessage, userMessages, resetUnreadCount, resetInnerUnreadCount } =
+    useChat();
   const { setIsLoading, isLoading } = usePreferences();
+  const setRef = useCallback((node: any) => {
+    if (node) {
+      node.scrollIntoView({ smooth: true });
+    }
+  }, []);
 
   useEffect(() => {
     if (userMessages?.chat.length! > 0) {
       setRecipentID(userMessages!.chat[currIndex].recipentID);
     }
     resetUnreadCount();
-  }, [userMessages, resetUnreadCount, currIndex]);
+    resetInnerUnreadCount(currIndex);
+  }, [userMessages, resetUnreadCount, resetInnerUnreadCount, currIndex]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,9 +47,13 @@ function Chat() {
 
   const getChatMessagesJSX = () => {
     if (!userMessages || userMessages.chat.length === 0) return;
+
     return userMessages.chat[currIndex].messages.map((msgObj, idx) => {
+      const lastMessage =
+        idx === userMessages.chat[currIndex].messages.length - 1;
       return (
         <div
+          ref={lastMessage ? setRef : null}
           key={idx}
           className={`textCont ${msgObj.sender ? "sender" : "recipent"}`}
         >
@@ -59,16 +71,22 @@ function Chat() {
     if (!userMessages || userMessages.chat.length === 0) return;
     return userMessages.chat.map((chatObj, idx) => {
       return (
-        <div
-          className={`recipent ${currIndex === idx && "current"}`}
-          onClick={() => setCurrIndex(idx)}
+        <StyledRecipent
+          current={currIndex === idx}
+          unReadCount={chatObj.unRead}
+          onClick={() => handleRecipentClick(idx)}
           key={idx}
         >
           <img src={chatObj.img || avatar} alt="" />
           {chatObj.recipentName}
-        </div>
+        </StyledRecipent>
       );
     });
+  };
+
+  const handleRecipentClick = (idx: number) => {
+    setCurrIndex(idx);
+    resetInnerUnreadCount(idx);
   };
 
   return isLoading ? (
@@ -80,14 +98,18 @@ function Chat() {
         <div className="chatBox">{getChatMessagesJSX()}</div>
         <hr />
         <form onSubmit={handleSubmit}>
-          <CustomInput
-            id={"chatMsg"}
-            onChange={getMsgText}
-            type="text"
-            value={msgText}
-            inputLabel="Message Text"
-            required={true}
-          />
+          <StyledInputContainer>
+            <textarea
+              id="message"
+              onChange={getMsgText}
+              value={msgText}
+              required
+              autoComplete="off"
+            />
+            <label className={msgText && "filled"} htmlFor="message">
+              Message Text
+            </label>
+          </StyledInputContainer>
           <StyledButton>Send</StyledButton>
         </form>
       </div>

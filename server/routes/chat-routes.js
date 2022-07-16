@@ -5,6 +5,7 @@ import {
   addMsg,
   getUserMessages,
   resetUnreadCount,
+  resetInnerUnreadCount,
 } from "../controllers/chat.controllers.js";
 
 const chatRouter = express.Router();
@@ -12,5 +13,6 @@ const chatRouter = express.Router();
 chatRouter.post("/addMsg", addMsg);
 chatRouter.get("/getUserMessages", auth, getUserMessages);
 chatRouter.put("/resetUnreadCount", auth, resetUnreadCount);
+chatRouter.put("/resetInnerUnreadCount", auth, resetInnerUnreadCount);
 
 export { chatRouter };

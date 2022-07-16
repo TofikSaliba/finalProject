@@ -28,8 +28,9 @@ export const addMsgFromServer = async (fromID, toID, message, sender) => {
     const fromUser = await UserChat.findById(fromID);
     const toUser = await User.findById(toID);
     if (!toUser || !fromUser) throw new Error("one or both users not found");
-
-    const recipent1 = fromUser.chat.find((recipent) => {
+    let index;
+    const recipent1 = fromUser.chat.find((recipent, idx) => {
+      index = idx;
       return recipent.recipentID.toString() === toID;
     });
     if (recipent1) {
@@ -38,7 +39,13 @@ export const addMsgFromServer = async (fromID, toID, message, sender) => {
         sender,
         time: new Date().toLocaleString(),
       });
-      ++recipent1.unRead;
+      if (!sender) {
+        ++recipent1.unRead;
+      }
+      if (index > 0) {
+        const pushToTop = fromUser.chat.splice(index, 1);
+        fromUser.chat.unshift(pushToTop[0]);
+      }
     } else {
       fromUser.chat.unshift({
         recipentID: toID,
@@ -76,4 +83,21 @@ export const resetUnreadCount = async (req, res) => {
   } catch (err) {
     res.status(404).json({ code: 404, message: err.message });
   }
+};
+
+export const resetInnerUnreadCount = async (req, res) => {
+  setTimeout(async () => {
+    try {
+      const userChat = await UserChat.findById(req.user._id);
+      const found = userChat.chat.find((chatObj) => {
+        return chatObj.recipentID.toString() === req.body.recipentID;
+      });
+      if (!found) throw new Error("Chat not found");
+      found.unRead = 0;
+      userChat.save();
+      res.status(200).json({ message: "success!" });
+    } catch (err) {
+      res.status(404).json({ code: 404, message: err.message });
+    }
+  }, 1000);
 };
