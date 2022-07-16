@@ -9,6 +9,7 @@ import SignUp from "../signUp/SignUp";
 import Login from "../login/Login";
 import About from "../about/About";
 import Contact from "../contact/Contact";
+import EditProfile from "../editProfile/EditProfile";
 import { usePreferences } from "../../contexts/Preferences.context";
 import Chat from "../chat/Chat";
 import PrivateRoute from "../../components/PrivateRoute/PrivateRoute";
@@ -33,6 +34,7 @@ const Routes = () => {
         <PublicRoute exact component={SignUp} path="/signUp" />
         <PublicRoute exact component={Login} path="/login" />
         <PrivateRoute exact component={Chat} path="/chat" />
+        <PrivateRoute exact component={EditProfile} path="/editProfile" />
       </Switch>
     </>
   );

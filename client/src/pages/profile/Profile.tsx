@@ -78,14 +78,15 @@ function Profile({ match }: any) {
     return (
       <>
         <h2>{user.name}</h2>
-        <img src={user.img ?? avatarIMG} alt={user.name} />
-        {user.from && <div>From: {user.from}</div>}
+        <img src={user.img === "" ? avatarIMG : user.img} alt={user.name} />
         {user.age && <div>Age: {user.age}</div>}
-        {user.bio && <p>Bio: {user.bio}</p>}
         <div>{user.helper ? "Here to help!" : "Looking for help"}</div>
+        {user.bio && <p>Bio: {user.bio}</p>}
         {user._id === currentUser?._id ? (
           <div className="editOption">
-            <NavLink to="/EditProfile">Edit</NavLink>
+            <NavLink to="/editProfile">
+              <StyledButton>Edit</StyledButton>
+            </NavLink>
           </div>
         ) : (
           <div className="sendMessage">

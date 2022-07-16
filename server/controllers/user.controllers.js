@@ -104,13 +104,18 @@ export const getUser = async (req, res) => {
 export const editProfile = async (req, res) => {
   try {
     const updates = Object.keys(req.body);
-    const allowed = ["name", "email", "password"];
+    const allowed = ["name", "img", "password", "age", "bio"];
     const isValid = updates.every((update) => allowed.includes(update));
     if (!isValid) {
       throw new Error("Invalid updates");
     }
 
-    updates.forEach((update) => (req.user[update] = req.body[update]));
+    for (let update of updates) {
+      if (update === "password" && req.body.password === "") {
+        continue;
+      }
+      req.user[update] = req.body[update];
+    }
     await req.user.save();
     res.json({ updatedUser: req.user });
   } catch (err) {

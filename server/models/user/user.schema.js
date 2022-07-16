@@ -33,9 +33,6 @@ const userSchema = new mongoose.Schema({
   age: {
     type: String,
   },
-  from: {
-    type: String,
-  },
   bio: {
     type: String,
   },

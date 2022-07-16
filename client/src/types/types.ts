@@ -16,7 +16,6 @@ export interface User {
   usersToReview: string[];
   img?: string;
   age?: string;
-  from?: string;
   bio?: string;
   helper: boolean;
   password?: string;
