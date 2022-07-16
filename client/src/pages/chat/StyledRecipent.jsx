@@ -34,20 +34,6 @@ export const StyledRecipent = styled.div`
     color: #fff;
     background: ${(props) => (props.unReadCount > 0 ? "red" : "transparent")};
     border-radius: 50%;
-    z-index: 18;
-  }
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-track {
-    display: none;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
   }
   @media ${device.mobileL} {
     gap: 0.4rem;
