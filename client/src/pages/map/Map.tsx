@@ -25,7 +25,8 @@ function Map() {
   const { currentUser, token, setCurrentUser } = useUser();
   const { setIsLoading, isLoading, setHamburgerOpen, hamburgerOpen, isLoaded } =
     usePreferences();
-  const center = useMemo(() => currentUser?.coords, [currentUser]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const center = useMemo(() => currentUser?.coords, []);
   const [value, setValue] = useState("");
   const [selected, setSelected] = useState<MarkerObj | null>(null);
   const [canHelp, setCanHelp] = useState(true);

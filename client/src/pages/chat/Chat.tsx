@@ -35,10 +35,11 @@ function Chat() {
   }, [userMessages, resetUnreadCount, resetInnerUnreadCount, currIndex]);
 
   useEffect(() => {
+    setCurrIndex(0);
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
-  }, [setIsLoading]);
+  }, [setIsLoading, setCurrIndex]);
 
   const getMsgText = (e: any) => {
     setMsgText(e.target.value);
