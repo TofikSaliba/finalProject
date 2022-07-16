@@ -9,9 +9,12 @@ interface PreferencesContextValue {
   setHamburgerOpen: (hamburgerOpen: boolean) => void;
   toggleHamburger: () => void;
   toggleNotifications: () => void;
+  toggleRequestPopup: () => void;
   isLoaded: boolean;
   displayNotifs: boolean;
   setDisplayNotifs: (hamburgerOpen: boolean) => void;
+  requestPopup: boolean;
+  setRequestPopup: (requestPopup: boolean) => void;
 }
 
 const emptyPreferencesContextValue: PreferencesContextValue = {
@@ -20,10 +23,13 @@ const emptyPreferencesContextValue: PreferencesContextValue = {
   hamburgerOpen: false,
   setHamburgerOpen: function (): void {},
   toggleHamburger: function (): void {},
+  toggleRequestPopup: function (): void {},
   toggleNotifications: function (): void {},
   isLoaded: false,
   displayNotifs: false,
   setDisplayNotifs: function (): void {},
+  requestPopup: false,
+  setRequestPopup: function (): void {},
 };
 
 const PreferencesContext = React.createContext<PreferencesContextValue>(
@@ -37,6 +43,7 @@ const libraries: ["places"] = ["places"];
 const PreferencesProvider = ({ children }: contextsProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
+  const [requestPopup, setRequestPopup] = useState(false);
   const [displayNotifs, setDisplayNotifs] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP!,
@@ -50,6 +57,9 @@ const PreferencesProvider = ({ children }: contextsProviderProps) => {
   const toggleNotifications = () => {
     setDisplayNotifs((prev) => !prev);
   };
+  const toggleRequestPopup = () => {
+    setRequestPopup((prev) => !prev);
+  };
 
   const value: PreferencesContextValue = {
     isLoading,
@@ -61,6 +71,9 @@ const PreferencesProvider = ({ children }: contextsProviderProps) => {
     displayNotifs,
     setDisplayNotifs,
     toggleNotifications,
+    requestPopup,
+    setRequestPopup,
+    toggleRequestPopup,
   };
 
   return (

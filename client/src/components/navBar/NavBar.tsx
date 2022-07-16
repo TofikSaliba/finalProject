@@ -29,7 +29,6 @@ import { BsChatDots } from "react-icons/bs";
 import { useChat } from "../../contexts/Chat.context";
 
 function NavBar() {
-  const [requestPopup, setRequestPopup] = useState(false);
   const [responding, setResponding] = useState(false);
   const { currentUser, setCurrentUser, token, setToken } = useUser();
   const { notifications, setNotifications } = useUsersUpdates();
@@ -44,6 +43,9 @@ function NavBar() {
     displayNotifs,
     setDisplayNotifs,
     toggleNotifications,
+    requestPopup,
+    setRequestPopup,
+    toggleRequestPopup,
   } = usePreferences();
 
   useEffect(() => {
@@ -329,9 +331,7 @@ function NavBar() {
       )}
       {currentUser && !currentUser.helper && (
         <StyledRequestHelpIcon>
-          {isLoaded && (
-            <GrAddCircle onClick={() => setRequestPopup((prev) => !prev)} />
-          )}
+          {isLoaded && <GrAddCircle onClick={toggleRequestPopup} />}
         </StyledRequestHelpIcon>
       )}
       {requestPopup && <MakeRequest close={setRequestPopup} />}
