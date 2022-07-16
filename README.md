@@ -1,5 +1,7 @@
 # Helping-Hand AppleSeeds Final Project
 
+[DEMO Link](https://tofik-helping-hand.herokuapp.com/)
+
 ## Description
 
 The project idea <strong>Helping-Hand</strong> was inspired by my
@@ -12,11 +14,11 @@ farm for the very simply reason that i enjoyed his company so much!
 
 ## Technologies:
 
-- React-js
+- React-TS
 - TypeScript
 - javaScript
 - StyledComponents
-- Node-js
+- Node-JS
 - MongoDB
 - Express
 - Socket.io
@@ -35,4 +37,3 @@ farm for the very simply reason that i enjoyed his company so much!
 
 ### Developer: Tofik Saliba
 
-[DEMO Link](https://tofik-helping-hand.herokuapp.com/)
