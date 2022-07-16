@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import CustomInput from "../../components/customInput/CustomInput";
 import { StyledButton } from "../../components/styledButton/StyledButton";
@@ -23,19 +22,8 @@ function Chat() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   }, [setIsLoading]);
-
-  //   const getMsgs = () => {
-  //     return msgs.map((msg, idx) => {
-  //       return <div key={idx}>{msg}</div>;
-  //     });
-  //   };
-
-  //   const setID = () => {
-  //     setRecipentID(IDRef.current.value);
-  //     IDRef.current.value = "";
-  //   };
 
   const getMsgText = (e: any) => {
     setMsgText(e.target.value);

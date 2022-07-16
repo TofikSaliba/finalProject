@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Redirect, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useUser } from "../../contexts/User.context";
 import { usePreferences } from "../../contexts/Preferences.context";
 import { User, Review, headerOptions } from "../../types/types";
@@ -35,8 +35,9 @@ function Profile({ match }: any) {
           setNotFound(false);
         } catch (err: any) {
           setNotFound(true);
-          setIsLoading(false);
           console.log(err.message);
+        } finally {
+          setIsLoading(false);
         }
       })();
     }
@@ -46,10 +47,10 @@ function Profile({ match }: any) {
     if (currentUser && !match.params.id) {
       setUser(currentUser);
       setNotFound(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
   }, [setIsLoading, currentUser, match.params.id]);
 
   useEffect(() => {
@@ -122,10 +123,6 @@ function Profile({ match }: any) {
     updateUsersToReview();
     socket.emit("reviewNotification", { toID: user?._id });
   };
-
-  if (!currentUser && !isLoading) {
-    return <Redirect to="/login" />;
-  }
 
   if (notFound && !isLoading) return <div>User Not Found!</div>;
 

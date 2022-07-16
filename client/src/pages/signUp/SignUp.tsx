@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import serverAPI from "../../api/serverApi";
 import { useUser } from "../../contexts/User.context";
 import { usePreferences } from "../../contexts/Preferences.context";
@@ -18,7 +17,7 @@ interface signUpFields {
 }
 
 function SignUp() {
-  const { currentUser, setCurrentUser, setToken } = useUser();
+  const { setCurrentUser, setToken } = useUser();
   const [form, setForm] = useState<signUpFields>({
     name: "",
     email: "",
@@ -33,7 +32,7 @@ function SignUp() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   }, [setIsLoading]);
 
   const handleChange = (e: any) => {
@@ -94,10 +93,6 @@ function SignUp() {
       return { ...prev, helper: help };
     });
   };
-
-  if (currentUser && !isLoading) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <>

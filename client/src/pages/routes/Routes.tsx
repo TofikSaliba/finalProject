@@ -11,6 +11,8 @@ import About from "../about/About";
 import Contact from "../contact/Contact";
 import { usePreferences } from "../../contexts/Preferences.context";
 import Chat from "../chat/Chat";
+import PrivateRoute from "../../components/PrivateRoute/PrivateRoute";
+import PublicRoute from "../../components/PrivateRoute/PublicRoute";
 
 const Routes = () => {
   const { isLoading } = usePreferences();
@@ -24,13 +26,13 @@ const Routes = () => {
       )}
       <Switch>
         <Route exact component={Home} path="/" />
-        <Route exact component={Profile} path="/profile/:id?" />
-        <Route exact component={Map} path="/map" />
+        <PrivateRoute exact component={Profile} path="/profile/:id?" />
+        <PrivateRoute exact component={Map} path="/map" />
         <Route exact component={Contact} path="/contact" />
         <Route exact component={About} path="/about" />
-        <Route exact component={SignUp} path="/signUp" />
-        <Route exact component={Login} path="/login" />
-        <Route exact component={Chat} path="/chat" />
+        <PublicRoute exact component={SignUp} path="/signUp" />
+        <PublicRoute exact component={Login} path="/login" />
+        <PrivateRoute exact component={Chat} path="/chat" />
       </Switch>
     </>
   );

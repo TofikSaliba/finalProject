@@ -42,7 +42,7 @@ function Map() {
       if (isLoaded) {
         setIsLoading(false);
       }
-    }, 1400);
+    }, 500);
   }, [isLoaded, setIsLoading]);
 
   const closeMenu = () => {
@@ -114,11 +114,8 @@ function Map() {
     }
   };
 
-  if (
-    (!currentUser && !isLoading) ||
-    (currentUser && !isLoading && !currentUser.helper)
-  ) {
-    return <Redirect to="/login" />;
+  if (!isLoading && !currentUser?.helper) {
+    return <Redirect to="/" />;
   }
 
   return (

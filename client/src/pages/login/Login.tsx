@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import serverAPI from "../../api/serverApi";
 import { useUser } from "../../contexts/User.context";
 import { usePreferences } from "../../contexts/Preferences.context";
@@ -13,7 +12,7 @@ interface LoginFields {
 }
 
 function Login() {
-  const { currentUser, setCurrentUser, setToken } = useUser();
+  const { setCurrentUser, setToken } = useUser();
   const [form, setForm] = useState<LoginFields>({
     email: "",
     password: "",
@@ -24,7 +23,7 @@ function Login() {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   }, [setIsLoading]);
 
   const handleChange = (e: any) => {
@@ -55,10 +54,6 @@ function Login() {
       setIsLoading(false);
     }
   };
-
-  if (currentUser && !isLoading) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <>
