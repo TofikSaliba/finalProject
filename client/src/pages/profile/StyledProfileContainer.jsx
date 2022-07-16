@@ -20,6 +20,7 @@ export const StyledProfileContainer = styled.div`
       width: 60%;
       min-width: 200px;
       align-self: center;
+      border-radius: 5rem;
     }
   }
   .reviews {

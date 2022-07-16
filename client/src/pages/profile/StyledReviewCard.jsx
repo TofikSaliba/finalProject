@@ -11,6 +11,7 @@ export const StyledReviewCard = styled.div`
   padding: 2rem;
   padding-top: 0.8rem;
   border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   a {
     text-decoration: none;
     text-transform: capitalize;

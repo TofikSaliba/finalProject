@@ -78,7 +78,10 @@ function Profile({ match }: any) {
     return (
       <>
         <h2>{user.name}</h2>
-        <img src={user.img === "" ? avatarIMG : user.img} alt={user.name} />
+        <img
+          src={!user.img || user.img === "" ? avatarIMG : user.img}
+          alt={user.name}
+        />
         {user.age && <div>Age: {user.age}</div>}
         <div>{user.helper ? "Here to help!" : "Looking for help"}</div>
         {user.bio && <p>Bio: {user.bio}</p>}

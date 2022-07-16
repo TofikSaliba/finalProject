@@ -9,6 +9,7 @@ export const StyledChatContainer = styled.div`
   border-radius: 10px;
   padding: 2rem;
   background: #e1e1e1;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   .recipentsNames {
     display: flex;
     flex-direction: column;
