@@ -12,14 +12,14 @@ export const StyledHamburgerList = styled.ul`
     padding: 1.5rem;
     text-decoration: none;
     border-radius: 5px;
-    color: #111;
+    color: #fff;
     font-weight: bold;
     transition: all 0.5s ease;
     font-size: 2rem;
     width: min-content;
   }
   a:hover {
-    background: rgb(226, 226, 178);
+    background: #e66d3993;
     color: #fff;
   }
 `;

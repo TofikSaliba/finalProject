@@ -8,7 +8,7 @@ export const StyledChatContainer = styled.div`
   height: 85vh;
   border-radius: 10px;
   padding: 2rem;
-  background: #ebebb7;
+  background: #e1e1e1;
   .recipentsNames {
     display: flex;
     flex-direction: column;
@@ -22,6 +22,7 @@ export const StyledChatContainer = styled.div`
       display: flex;
       align-items: center;
       gap: 1rem;
+      padding: 0.3rem 0;
       cursor: pointer;
       border-bottom: 1px solid #111;
       img {
@@ -29,41 +30,80 @@ export const StyledChatContainer = styled.div`
         border-radius: 50%;
       }
     }
+    .recipent.current {
+      background: #37b804;
+      border-radius: 1rem;
+      border: none;
+      color: #fff;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      display: none;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   }
-  .chatBox {
+  .chatBoxContainer {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 1rem;
     padding-left: 1rem;
     font-size: clamp(1.4rem, 3vw, 2rem);
-    overflow-y: scroll;
-    .textCont {
+    overflow-y: hidden;
+    .chatBox {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-y: scroll;
+      overflow-x: hidden;
       gap: 1rem;
-      .text {
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
+      .textCont {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .text {
+          padding: 0.5rem 1rem;
+          border-radius: 2rem;
+        }
+        .text.recipent {
+          background: #fff;
+        }
+        .text.sender {
+          background: #3cc706;
+        }
+        span {
+          font-size: 1.3rem;
+          display: none;
+        }
       }
-      .text.recipent {
-        background: #fff;
+
+      .textCont.sender {
+        justify-content: flex-end;
       }
-      .text.sender {
-        background: #70f13c;
+      .textCont:hover > span {
+        display: inline;
       }
-      span {
-        font-size: 1.3rem;
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
         display: none;
       }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     }
-    .textCont.sender {
-      justify-content: flex-end;
-    }
-    .textCont:hover > span {
-      display: inline;
-    }
-
     form {
       display: flex;
       button {
@@ -77,6 +117,7 @@ export const StyledChatContainer = styled.div`
       }
     }
   }
+
   @media ${device.mobileL} {
     padding: 0.3rem;
     .recipentsNames {

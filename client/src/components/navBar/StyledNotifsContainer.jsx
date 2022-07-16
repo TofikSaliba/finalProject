@@ -2,7 +2,7 @@ import styled from "styled-components";
 import device from "../../utils/mediaQuerySizes";
 
 export const StyledNotifsContainer = styled.div`
-  background: #ccc;
+  background: #31a105ca;
   position: absolute;
   top: 110%;
   left: -80%;
@@ -13,11 +13,12 @@ export const StyledNotifsContainer = styled.div`
   padding: 1rem;
   border-radius: 10px;
   overflow: scroll;
+  color: #111;
   overflow-x: hidden;
   a {
     text-decoration: none;
     text-transform: capitalize;
-    color: blue;
+    color: #8d3712;
   }
   ::-webkit-scrollbar {
     width: 5px;

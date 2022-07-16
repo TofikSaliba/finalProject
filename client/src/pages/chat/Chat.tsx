@@ -41,12 +41,12 @@ function Chat() {
     if (!userMessages || userMessages.chat.length === 0) return;
     return userMessages.chat[currIndex].messages.map((msgObj, idx) => {
       return (
-        <div className={`textCont ${msgObj.sender ? "sender" : "recipent"}`}>
+        <div
+          key={idx}
+          className={`textCont ${msgObj.sender ? "sender" : "recipent"}`}
+        >
           {msgObj.sender ? <span>{msgObj.time}</span> : ""}
-          <div
-            className={`${msgObj.sender ? "text sender" : "text recipent"}`}
-            key={idx}
-          >
+          <div className={`${msgObj.sender ? "text sender" : "text recipent"}`}>
             {msgObj.text}
           </div>{" "}
           {msgObj.sender ? "" : <span>{msgObj.time}</span>}
@@ -59,7 +59,11 @@ function Chat() {
     if (!userMessages || userMessages.chat.length === 0) return;
     return userMessages.chat.map((chatObj, idx) => {
       return (
-        <div className="recipent" onClick={() => setCurrIndex(idx)} key={idx}>
+        <div
+          className={`recipent ${currIndex === idx && "current"}`}
+          onClick={() => setCurrIndex(idx)}
+          key={idx}
+        >
           <img src={chatObj.img || avatar} alt="" />
           {chatObj.recipentName}
         </div>
@@ -72,8 +76,8 @@ function Chat() {
   ) : (
     <StyledChatContainer>
       <div className="recipentsNames">{getChatRecipentsJSX()}</div>
-      <div className="chatBox">
-        {getChatMessagesJSX()}
+      <div className="chatBoxContainer">
+        <div className="chatBox">{getChatMessagesJSX()}</div>
         <hr />
         <form onSubmit={handleSubmit}>
           <CustomInput

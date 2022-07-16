@@ -10,7 +10,7 @@ export const StyledRequestHelpIcon = styled.div`
   z-index: 20;
   @media ${device.tablet} {
     font-size: 4rem;
-    bottom: 1rem;
+    bottom: 0;
     right: 1rem;
   }
 `;

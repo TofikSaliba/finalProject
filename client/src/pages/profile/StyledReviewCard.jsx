@@ -14,7 +14,7 @@ export const StyledReviewCard = styled.div`
   a {
     text-decoration: none;
     text-transform: capitalize;
-    color: blue;
+    color: #37b804;
   }
   span {
     font-weight: bold;

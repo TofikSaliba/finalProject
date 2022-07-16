@@ -13,7 +13,7 @@ export const StyledMakeRequest = styled.div`
   .smallContainer {
     display: flex;
     flex-direction: column;
-    background: #2d62f3;
+    background: #31a105;
     padding: 3rem;
     border-radius: 10px;
     width: 30%;

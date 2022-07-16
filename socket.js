@@ -70,6 +70,9 @@ io.on("connection", (socket) => {
     ++responseToUser.unRead;
     await responseToUser.save();
     socket.to(notObj.userID).emit("updateMarkersOrNotifs");
+    if (res === "no") {
+      socket.emit("updateMarkersOrNotifs");
+    }
   });
 
   socket.on("reviewNotification", async ({ toID }) => {
