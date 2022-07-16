@@ -31,7 +31,7 @@ function Home() {
         <>
           <p>
             Make sure you create an account, notice that we have two types of
-            accounts, make one according to the role you want to do!
+            accounts, make one that suits your needs!
           </p>
           <NavLink to="/signUp">
             <StyledButton>SignUp</StyledButton>
@@ -61,9 +61,9 @@ function Home() {
           <h2> Welcome {currentUser.name}</h2>
           <p>
             We are so glad that you have chosen us to find people around you
-            that are able to help! make a help request so people see it on the
-            map! click the plus(+) symbol at the bottom right of your screen! or
-            this button:
+            that are able to help! make a help request so people can see it on
+            the map! click the plus(+) symbol at the bottom right of your
+            screen! or the button below:
           </p>
 
           <StyledButton onClick={() => setRequestPopup(true)}>
@@ -74,7 +74,7 @@ function Home() {
       <h2>Contact</h2>
       <p>
         Make sure you contact us with any questions, bug reports or
-        improvements! Feedback is always welcome!
+        improvements! Feedback is always welcomed!
       </p>
       <NavLink to="/contact">
         <StyledButton>Contact</StyledButton>
