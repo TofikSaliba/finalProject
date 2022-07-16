@@ -2,7 +2,7 @@ import styled from "styled-components";
 import device from "../../utils/mediaQuerySizes";
 
 export const StyledNotifsContainer = styled.div`
-  background: #31a105ca;
+  background: #31a105;
   position: absolute;
   top: 110%;
   left: -80%;
@@ -32,17 +32,6 @@ export const StyledNotifsContainer = styled.div`
   }
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
-  }
-  &:before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 35%;
-    transform: rotate(45deg);
-    width: 30px;
-    height: 30px;
-    background-color: #ccc;
-    z-index: -1;
   }
   hr {
     margin: 1rem 0;

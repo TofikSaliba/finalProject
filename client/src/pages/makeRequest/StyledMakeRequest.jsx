@@ -11,6 +11,7 @@ export const StyledMakeRequest = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 19;
+
   .smallContainer {
     display: flex;
     flex-direction: column;
@@ -20,6 +21,7 @@ export const StyledMakeRequest = styled.div`
     width: 30%;
     min-width: 280px;
     gap: 2rem;
+    overflow: hidden;
     .closePopup {
       display: flex;
       flex-direction: column;

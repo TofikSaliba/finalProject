@@ -315,9 +315,12 @@ function NavBar() {
         >
           <MdOutlineNotifications className="icon" onClick={handleNotifClick} />
           {displayNotifs && (
-            <StyledNotifsContainer>
-              {getNotificationsJSX()}
-            </StyledNotifsContainer>
+            <>
+              <div className="tip"></div>
+              <StyledNotifsContainer>
+                {getNotificationsJSX()}
+              </StyledNotifsContainer>
+            </>
           )}
           <NavLink onClick={resetUnreadCount} to="/chat">
             <BsChatDots className="icon" />

@@ -30,7 +30,6 @@ function Map() {
   const [selected, setSelected] = useState<MarkerObj | null>(null);
   const [canHelp, setCanHelp] = useState(true);
   const mapRef: any = useRef();
-  const inputRef: any = useRef();
   const onMapLoad = useCallback((map: any) => {
     mapRef.current = map;
   }, []);
@@ -59,7 +58,6 @@ function Map() {
 
   const goToAddress = async (e: any) => {
     e.preventDefault();
-    inputRef.current.blur();
     try {
       const results = await getGeocode({ address: value });
       const { lat, lng } = getLatLng(results[0]);
@@ -125,11 +123,7 @@ function Map() {
       {!isLoading && isLoaded && (
         <>
           <StyledSearch onSubmit={goToAddress}>
-            <MapSearchInput
-              ref={inputRef}
-              sendValue={value}
-              setSendValue={setValue}
-            />
+            <MapSearchInput sendValue={value} setSendValue={setValue} />
             <button>go</button>
           </StyledSearch>
           <div onClick={closeMenu} className="map-wrapper">

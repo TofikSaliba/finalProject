@@ -45,7 +45,21 @@ export const StyledIcons = styled.div`
     border-radius: 50%;
     z-index: 18;
   }
+  .tip {
+    position: absolute;
+    top: 4.5rem;
+    left: 5px;
+    transform: rotate(45deg);
+    width: 30px;
+    height: 30px;
+    background-color: #31a105;
+    z-index: -1;
+  }
   @media ${device.mobileL} {
     font-size: 3.5rem;
+    .tip {
+      top: 4rem;
+      left: 3px;
+    }
   }
 `;

@@ -10,9 +10,15 @@ import { StyledInputContainer } from "../../components/customInput/styledInputCo
 function Chat() {
   const [msgText, setMsgText] = useState("");
   const [recipentID, setRecipentID] = useState("");
-  const [currIndex, setCurrIndex] = useState(0);
-  const { sendMessage, userMessages, resetUnreadCount, resetInnerUnreadCount } =
-    useChat();
+  // const [currIndex, setCurrIndex] = useState(0);
+  const {
+    sendMessage,
+    userMessages,
+    resetUnreadCount,
+    resetInnerUnreadCount,
+    currIndex,
+    setCurrIndex,
+  } = useChat();
   const { setIsLoading, isLoading } = usePreferences();
   const setRef = useCallback((node: any) => {
     if (node) {

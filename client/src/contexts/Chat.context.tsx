@@ -10,6 +10,8 @@ interface ChatContextValue {
   resetUnreadCount: () => void;
   resetInnerUnreadCount: (index: number) => void;
   startConversation: (recipentID: string, recipentName: string) => void;
+  currIndex: number;
+  setCurrIndex: (currIndex: number) => void;
 }
 
 const emptyChatContextValue: ChatContextValue = {
@@ -18,6 +20,8 @@ const emptyChatContextValue: ChatContextValue = {
   resetUnreadCount: function (): void {},
   resetInnerUnreadCount: function (): void {},
   startConversation: function (): void {},
+  currIndex: 0,
+  setCurrIndex: function (): void {},
 };
 
 const ChatContext = React.createContext<ChatContextValue>(
@@ -32,6 +36,7 @@ export function ChatProvider({ children }: contextsProviderProps) {
   const [userMessages, setUserMessages] = useState<ChatObj>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rerender, setRerender] = useState(false);
+  const [currIndex, setCurrIndex] = useState(0);
   const { socket } = useSocket();
   const { currentUser, token } = useUser();
 
@@ -153,6 +158,8 @@ export function ChatProvider({ children }: contextsProviderProps) {
     resetUnreadCount,
     startConversation,
     resetInnerUnreadCount,
+    currIndex,
+    setCurrIndex,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

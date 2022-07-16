@@ -6,7 +6,7 @@ export const StyledHamburgerMenu = styled.div`
   left: ${(props) => (props.active ? "0px" : "-260px")};
   width: 250px;
   height: 100%;
-  background: #31a105ca;
+  background: #368b14c9;
   z-index: 18;
   transition: all 750ms ease;
   border-top-right-radius: 5%;
