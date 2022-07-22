@@ -16,10 +16,24 @@ import PrivateRoute from "../../components/PrivateRoute/PrivateRoute";
 import PublicRoute from "../../components/PrivateRoute/PublicRoute";
 
 const Routes = () => {
-  const { isLoading } = usePreferences();
+  const { isLoading, setHamburgerOpen, hamburgerOpen, setDisplayNotifs } =
+    usePreferences();
+
+  const closeMenu = (e: any) => {
+    if (
+      e.target.id !== "burgerIcon" &&
+      e.target.id !== "burgerMenu" &&
+      hamburgerOpen
+    ) {
+      setHamburgerOpen(false);
+    }
+    if (e.target.id === "main") {
+      setDisplayNotifs(false);
+    }
+  };
 
   return (
-    <>
+    <div onClick={closeMenu} id="main" className="mainContainer">
       <div className="bg-container"></div>
       <NavBar />
       {isLoading && (
@@ -36,7 +50,7 @@ const Routes = () => {
         <PrivateRoute exact component={Chat} path="/chat" />
         <PrivateRoute exact component={EditProfile} path="/editProfile" />
       </Switch>
-    </>
+    </div>
   );
 };
 
