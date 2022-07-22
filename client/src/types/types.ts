@@ -33,6 +33,7 @@ export interface UserContextValue {
   token: string | null;
   setToken: (token: string | null) => void;
   updateUsersToReview: () => void;
+  logOut: () => void;
 }
 
 export interface CustomInputProps {

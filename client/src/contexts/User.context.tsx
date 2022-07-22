@@ -3,6 +3,7 @@ import { User, contextsProviderProps, UserContextValue } from "../types/types";
 import { SetCookie, GetCookie, RemoveCookie } from "../services/jsCookie";
 import serverAPI from "../api/serverApi";
 import { headerOptions } from "../types/types";
+import { usePreferences } from "./Preferences.context";
 
 const emptyUserContextValue: UserContextValue = {
   currentUser: null,
@@ -10,6 +11,7 @@ const emptyUserContextValue: UserContextValue = {
   token: null,
   setToken: function (): void {},
   updateUsersToReview: function (): void {},
+  logOut: function (): void {},
 };
 
 const UserContext = React.createContext<UserContextValue>(
@@ -24,6 +26,7 @@ export function UserProvider({ children }: contextsProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [refetchUser, setRefetchUser] = useState(false);
+  const { setIsLoading } = usePreferences();
 
   useEffect(() => {
     const savedToken = GetCookie("userToken");
@@ -54,6 +57,25 @@ export function UserProvider({ children }: contextsProviderProps) {
     }
   }, [token]);
 
+  const logOut = async () => {
+    const options: headerOptions = {
+      headers: {
+        Authorization: token!,
+      },
+    };
+    setIsLoading(true);
+    try {
+      await serverAPI(options).post("/users/logout");
+      setToken(null);
+      RemoveCookie("userToken");
+      setCurrentUser(null);
+    } catch (err: any) {
+      console.log(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const updateUsersToReview = () => {
     setRefetchUser((prev) => !prev);
   };
@@ -64,6 +86,7 @@ export function UserProvider({ children }: contextsProviderProps) {
     token,
     setToken,
     updateUsersToReview,
+    logOut,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

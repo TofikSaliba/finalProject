@@ -8,7 +8,6 @@ import { useSocket } from "../../contexts/Socket.context";
 
 import serverAPI from "../../api/serverApi";
 import { headerOptions, NotificationObject } from "../../types/types";
-import { RemoveCookie } from "../../services/jsCookie";
 
 import { StyledHamburgerMenu } from "./styledHamburgerMenu";
 import { StyledHamburgerList } from "./styledHamburgerList";
@@ -30,12 +29,11 @@ import { useChat } from "../../contexts/Chat.context";
 
 function NavBar() {
   const [responding, setResponding] = useState(false);
-  const { currentUser, setCurrentUser, token, setToken } = useUser();
+  const { currentUser, token, logOut } = useUser();
   const { notifications, setNotifications } = useUsersUpdates();
   const { socket } = useSocket();
   const { userMessages, resetUnreadCount } = useChat();
   const {
-    setIsLoading,
     hamburgerOpen,
     setHamburgerOpen,
     toggleHamburger,
@@ -51,25 +49,6 @@ function NavBar() {
   useEffect(() => {
     setResponding(false);
   }, [notifications]);
-
-  const logOut = async () => {
-    const options: headerOptions = {
-      headers: {
-        Authorization: token!,
-      },
-    };
-    setIsLoading(true);
-    try {
-      await serverAPI(options).post("/users/logout");
-      setToken(null);
-      RemoveCookie("userToken");
-      setCurrentUser(null);
-    } catch (err: any) {
-      console.log(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const getNotificationsJSX = () => {
     return notifications?.notifications.map((notObj) => {
